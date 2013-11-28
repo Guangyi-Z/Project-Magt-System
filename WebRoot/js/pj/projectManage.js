@@ -7,11 +7,11 @@ var proManageFun = function() {
 			id : "addWin",
 			title : titleText,
 			width : 400,
-			height : 180,
+			height : 225,
 			resizable : false,
 			modal : true,
 			animateTarget : 'addType',
-			closeAction : 'close',
+			// closeAction : 'close',
 			listeners : {
 				'show' : function() {
 					btn_add.disable();// 当窗口显示时，则添加按钮不可用
@@ -39,6 +39,7 @@ var proManageFun = function() {
 							fieldLabel : "项目名称",
 							name : "project.name",
 							allowBlank : false,
+							anchor : '100%',
 							readOnly : param,
 							emptyText : "请输入项目名称...",
 							listeners : {
@@ -51,8 +52,21 @@ var proManageFun = function() {
 								}
 							}
 						}, {
+							xtype : 'datefield',
+							anchor : '100%',
+							fieldLabel : '开始时间',
+							name : 'project.startDate',
+							value : new Date()
+						}, {
+							xtype : 'datefield',
+							anchor : '100%',
+							fieldLabel : '结束时间',
+							name : 'project.finishDate',
+							value : new Date()
+						}, {
 							id : "proDesc",
 							xtype : 'textarea',
+							anchor : '100%',
 							fieldLabel : "项目简介",
 							name : "project.desc",
 							emptyText : "请输入项目简介..."
@@ -177,7 +191,7 @@ var proManageFun = function() {
 	_grid = Ext.create('Ext.grid.Panel', {
 				title : '项目管理',
 				store : Ext.data.StoreManager.lookup('simpsonsStore'),
-				region: 'center',
+				region : 'center',
 				columns : [{
 							text : 'Name',
 							dataIndex : 'name'

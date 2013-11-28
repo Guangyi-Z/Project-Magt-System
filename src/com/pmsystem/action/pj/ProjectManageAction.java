@@ -5,10 +5,12 @@ import java.util.Map;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.pmsystem.model.pj.Project;
+import com.pmsystem.service.pj.ProjectManageService;
 
 public class ProjectManageAction extends ActionSupport {
 	private Project project;
 	private Map<String, Object> jsonMap;
+	private ProjectManageService projectManageService;
 	private boolean success;
 
 	public ProjectManageAction(){
@@ -16,8 +18,14 @@ public class ProjectManageAction extends ActionSupport {
 	}
 	
 	public String addProject() {
-		System.out.println("name : " + project.getName());
-		System.out.println("desc : " + project.getDesc());
+		System.out.println("name a: " + project.getName());
+		System.out.println("desc a: " + project.getDesc());
+		System.out.println("startDate a: " + project.getStartDate());
+		System.out.println("finishDate a: " + project.getFinishDate());
+		if(projectManageService == null){
+			System.out.println("projectManageService == null");
+		}
+		projectManageService.addProject(project);
 		jsonMap.put("success", true);
 		return SUCCESS;
 	}
@@ -44,6 +52,14 @@ public class ProjectManageAction extends ActionSupport {
 
 	public void setSuccess(boolean success) {
 		this.success = success;
+	}
+
+	public ProjectManageService getProjectManageService() {
+		return projectManageService;
+	}
+
+	public void setProjectManageService(ProjectManageService projectManageService) {
+		this.projectManageService = projectManageService;
 	}
 	
 }

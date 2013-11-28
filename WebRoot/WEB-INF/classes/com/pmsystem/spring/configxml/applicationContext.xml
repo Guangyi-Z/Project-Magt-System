@@ -44,19 +44,15 @@
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+
+	<!-- pj -->
+	<import resource="pj/applicationContext-dao-pj.xml" />
+	<import resource="pj/applicationContext-service-pj.xml" />
+	<import resource="pj/applicationContext-action-pj.xml" />
 	
-	
-	<!-- Dao -->
-	<bean id="loginDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface" value="com.dao.LoginDao" />
-		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</bean>
-	<!-- Service -->
-	<bean id="loginService" class="com.serviceImpl.LoginServiceImpl">
-		<property name="loginDao" ref="loginDAO"></property>
-	</bean>
-	<!-- Action -->
-	<bean id="loginAction" class="com.action.LoginAction">
-		<property name="loginService" ref="loginService"></property>
-	</bean>
+	<!-- fr -->
+	<import resource="fr/applicationContext-dao-fr.xml" />
+	<import resource="fr/applicationContext-service-fr.xml" />
+	<import resource="fr/applicationContext-action-fr.xml" />
+
 </beans>

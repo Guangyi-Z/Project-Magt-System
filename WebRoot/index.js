@@ -2,7 +2,7 @@ var _center;
 Ext.onReady(function() {
 
 	var _top = new Ext.Toolbar({
-		style : 'background-color:Blue; background-image:url(images/logo_bg.jpg);',
+		style : 'background-color:Blue; background-image:url(resources/images/logo_bg.jpg);',
 		height : 40,
 		region : 'north',
 		items : ['<h1>IT项目管理系统</h1>', '->', {

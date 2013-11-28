@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pmsystem.dao.pj.ProjectManageDAO">
+	<insert parameterType="com.pmsystem.model.pj.Project" id="addProject">
+		INSERT
+		INTO 项目 ( 项目ID , 项目名称, 开始时间,
+		结束时间,
+		项目状态 , 项目简介 ) VALUES (
+		#{id},
+		#{name},
+		#{startDate}, #{finishDate},
+		#{status}, #{desc} )
+	</insert>
+</mapper>
