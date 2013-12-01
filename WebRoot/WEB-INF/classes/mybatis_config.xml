@@ -2,4 +2,13 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+<typeAliases>
+		<!-- common_basic_data -->
+		<typeAlias type="com.pmsystem.model.pj.Project" alias="Project"/>
+	</typeAliases>
+	
+	<mappers>
+		<!--common_basic_data  -->
+		<mapper resource="com/pmsystem/dao/pj/ProjectManageDAO.xml"/>
+	</mappers>
 </configuration>

@@ -91,7 +91,7 @@ var proManageFun = function() {
 								Ext.example.msg("提交成功", "提交订单类型信息成功……",
 										"msg-box-success");// 相应的提示信息
 								Ext.getCmp("addWin").close(); // 根据id获取到表单的窗口，然后将其关闭
-								// _grid.getStore().reload(); //
+								 _grid.getStore().reload(); //
 								// 提交成功后，需要刷新GridPanel数据，
 
 							},
@@ -119,7 +119,39 @@ var proManageFun = function() {
 		}).show();
 
 	}
-
+	
+	var deleteFn = function(){
+		var _selectModel = _grid.getSelectionModel();
+		if(_selectModel.hasSelection()) {
+			var ID = _selectModel.getLastSelected().get("id");
+		
+			Ext.MessageBox.confirm("删除项目","你将永久删除此项目，不可恢复！", function(btnId){
+					if(btnId == "yes"){
+						Ext.Ajax.request({
+							url : "Project/deleteProject.action",
+							params : {
+								"id" : ID
+							},
+							method : 'POST',
+							success : function(){
+								
+									Ext.example.msg("删除项目", "删除成功", "msg-box-success");
+									 _grid.getStore().reload(); //
+									
+									
+								
+							},
+							failure : function() {
+								Ext.example.msg("警告", "删除项目失败", "msg-box-error");
+							}
+						});
+					}
+			});
+		}
+		else {
+			Ext.example.msg("警告", "请选择要删除的项目", "msg-box-error");
+		}
+	}
 	var btn_view = new Ext.Button({
 				text : "查看项目",
 				tooltip : "查看项目",
@@ -136,7 +168,10 @@ var proManageFun = function() {
 				text : "删除项目",
 				tooltip : "删除项目",
 				id : "delPro",
-				iconCls : 'icon-btn-del'
+				iconCls : 'icon-btn-del',
+				handler : function() {
+						new deleteFn();
+				}
 			});
 
 	var btn_freeze = new Ext.Button({
@@ -165,58 +200,85 @@ var proManageFun = function() {
 				iconCls : 'icon-btn-search'	
 			});
 
+
+	Ext.define('Project', {
+		extend : 'Ext.data.Model',
+		fields : [
+		          	{	name : "id",
+						type : "string"
+					}, {
+						name : "name",
+						type : "string"
+					}, {
+						name : "startDate",
+						type : "Date"
+					}, {
+						name : "finishDate",
+						type : "Date"
+					}, {
+						name : "status",
+						type : "string"
+					}, {
+						name : "desc",
+						type : "string"
+					}
+					]});
 	Ext.create('Ext.data.Store', {
-				storeId : 'simpsonsStore',
-				fields : ['name', 'email', 'phone'],
-				data : {
-					'items' : [{
-								'name' : 'Lisa',
-								"email" : "lisa@simpsons.com",
-								"phone" : "555-111-1224"
-							}, {
-								'name' : 'Bart',
-								"email" : "bart@simpsons.com",
-								"phone" : "555-222-1234"
-							}, {
-								'name' : 'Homer',
-								"email" : "home@simpsons.com",
-								"phone" : "555-222-1244"
-							}, {
-								'name' : 'Marge',
-								"email" : "marge@simpsons.com",
-								"phone" : "555-222-1254"
-							}]
-				},
-				proxy : {
-					type : 'memory',
+			model : 'Project',
+			storeId : 'myStore',
+			proxy : {
+					type : 'rest',
+					url : 'Project/findAllProject.action',
+					method : 'POST',
 					reader : {
 						type : 'json',
-						root : 'items'
+						root : 'projects',
+						totalProperty : 'totalCount',
+						idProperty : 'id'
 					}
-				}
-			});
-
-	_grid = Ext.create('Ext.grid.Panel', {
+			},
+			autoLoad : true
+	});
+	var _sm = new Ext.selection.RowModel({
+		mode : 'SINGLE'
+	}
+	);
+	var _grid = Ext.create('Ext.grid.Panel', {
 				title : '项目管理',
-				store : Ext.data.StoreManager.lookup('simpsonsStore'),
+				store : Ext.data.StoreManager.lookup('myStore'),
+				selModel : _sm,
+				columnLines : true,
 				region : 'center',
-				columns : [{
-							text : 'Name',
-							dataIndex : 'name'
-						}, {
-							text : 'Email',
-							dataIndex : 'email',
-							flex : 1
-						}, {
-							text : 'Phone',
-							dataIndex : 'phone'
-						}],
+				//cm : _cm,
+				columns : [
+	                       {
+								text : '项目编号',
+								dataIndex : 'id'
+							}, {
+								text : '项目名称',
+								dataIndex : 'name'
+							}, {
+								text : '开始时间',
+								dataIndex : 'startDate'
+							}, {
+								text : '结束时间',
+								dataIndex : 'finishDate'
+							}, {
+								text : '状态',
+								dataIndex : 'status'
+							}, {
+								text : '简介',
+								dataIndex : 'desc',
+								flex : 1
+							}],
+
+				frame : true,
+				
 				tbar : [btn_view, '-', btn_del, '-', btn_freeze, '->', btn_add,
 						'-', btn_search],
 				bbar : new Ext.PagingToolbar({
 							id : "toolbar1",
-							store : Ext.data.StoreManager
-									.lookup('simpsonsStore'),
+							store : Ext.data.StoreManager.lookup('myStore'),
 							pageSize : pageSize,
 							displayInfo : true,
 							displayMsg : "第 {0} - {1} 条&nbsp;&nbsp;共 {2} 条",
