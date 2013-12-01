@@ -14,6 +14,8 @@ Ext.onReady(function() {
 				}, '-', {
 					text : '好友管理',
 					handler : function() {
+						_center.removeAll();
+						_center.add(friendManageFunc());
 					}
 				}, '-', {
 					text : '我的账号',
