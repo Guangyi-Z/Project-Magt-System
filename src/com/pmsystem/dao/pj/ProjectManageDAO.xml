@@ -11,4 +11,42 @@
 		#{startDate}, #{finishDate},
 		#{status}, #{desc} )
 	</insert>
+	
+	<resultMap type = "Project" id = "ProjectMap">
+		<id property = "id" column = "项目ID"></id>
+		<result property = "name" column = "项目名称"></result>
+		<result property = "startDate" column = "开始时间"></result>
+		<result property = "finishDate" column = "结束时间"></result>
+		<result	property = "status" column = "项目状态"></result>
+		<result property = "desc" column = "项目简介"></result>
+	<!-- 暂未考虑确认项目经理 -->
+	</resultMap>
+	<delete id="deleteProject" parameterType = "String">
+		DELETE FROM 项目
+		WHERE 项目ID = #{id}
+	</delete>
+	<select id = "getAllProjectCount" parameterType = "map" resultMap = "ProjectMap">
+		SELECT TOP ${limit} * FROM 项目
+		WHERE 项目ID NOT IN(
+			SELECT TOP ${start} 项目ID
+			FROM 项目
+			ORDER BY 项目ID)
+		ORDER BY 项目ID
+	</select>
+	<select id="getProjectByID" parameterType = "String" resultMap = "ProjectMap">
+		SELECT * FROM 项目
+		WHERE 项目ID = #{id}
+	</select>
+	<update id="updateProject" parameterType = "Project">
+		UPDATE 项目 SET
+		项目名称 = #{name},
+		开始时间 = #{startDate},
+		结束时间 = #{finishDate},
+		项目状态 = #{status},
+		项目简介 = #{desc}
+		WHERE 项目ID = #{id}
+	</update>
+	<select id="getCount" resultType = "int">
+		SELECT count(*) FROM 项目
+	</select>
 </mapper>

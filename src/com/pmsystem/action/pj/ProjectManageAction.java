@@ -1,7 +1,10 @@
 package com.pmsystem.action.pj;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.apache.struts2.components.Else;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.pmsystem.model.pj.Project;
@@ -13,6 +16,13 @@ public class ProjectManageAction extends ActionSupport {
 	private ProjectManageService projectManageService;
 	private boolean success;
 
+	private String id;
+	private List<Project> projects;
+	private int totalCount;
+	private int start;
+	private int limit;
+
+	
 	public ProjectManageAction(){
 		jsonMap = new HashMap<String, Object>();
 	}
@@ -29,7 +39,51 @@ public class ProjectManageAction extends ActionSupport {
 		jsonMap.put("success", true);
 		return SUCCESS;
 	}
-
+	
+	public String deleteProject() {
+		jsonMap.clear();
+		if(projectManageService.deleteProject(id) == null){
+			
+		}
+		jsonMap.put("success", true);
+		return SUCCESS;
+	}
+	
+	public String updateProject(){
+		jsonMap.clear();
+		if(projectManageService.updateProject(project) == null){
+			
+		}
+			
+		jsonMap.put("success", true);
+		return SUCCESS;
+	}
+	
+	public String findAllProject(){
+		jsonMap.clear();
+		if(projectManageService.getAllProjects(limit, start) != null){
+			projects = projectManageService.getAllProjects(limit, start);
+			totalCount = projectManageService.getCount();
+			jsonMap.put("projects", projects);
+			jsonMap.put("totalCount", totalCount);
+			jsonMap.put("success", true);
+		}
+		else
+			jsonMap.put("success", false);
+		return SUCCESS;
+	}
+	
+	public String findProjectByID(){
+		jsonMap.clear();
+		String ID = project.getId();
+		project = projectManageService.getProjectByID(ID);
+		if(project != null){
+			jsonMap.put("success", true);
+		}
+		else
+			jsonMap.put("success", false);
+		return SUCCESS;
+	}
 	public Project getProject() {
 		return project;
 	}
@@ -60,6 +114,46 @@ public class ProjectManageAction extends ActionSupport {
 
 	public void setProjectManageService(ProjectManageService projectManageService) {
 		this.projectManageService = projectManageService;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public List<Project> getProjects() {
+		return projects;
+	}
+
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
+	}
+
+	public int getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
+	}
+
+	public int getStart() {
+		return start;
+	}
+
+	public void setStart(int start) {
+		this.start = start;
+	}
+
+	public int getLimit() {
+		return limit;
+	}
+
+	public void setLimit(int limit) {
+		this.limit = limit;
 	}
 	
 }
