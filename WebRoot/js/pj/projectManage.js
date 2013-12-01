@@ -121,7 +121,11 @@ var proManageFun = function() {
 				text : "查看项目",
 				tooltip : "查看项目",
 				id : "viewPro",
-				iconCls : 'icon_btn_view'
+				iconCls : 'icon_btn_view',
+				handler : function() {
+					var proName= '';	// 选中项目的项目名称
+					new OnePrijectViewFun(proName);
+				}
 			});
 
 	var btn_del = new Ext.Button({
