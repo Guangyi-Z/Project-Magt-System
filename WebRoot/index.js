@@ -23,7 +23,7 @@ Ext.onReady(function() {
 					text : '测试按钮',
 					handler : function() {
 						_center.removeAll();
-						_center.add(treeGridFunTest());
+						_center.add(taskManageFn());
 					}
 				}]
 	});
