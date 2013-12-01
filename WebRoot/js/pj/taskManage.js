@@ -32,6 +32,22 @@ var taskManageFn = function() {
 		} ]
 	});
 
+	Ext.define('Sel',{
+		extend : 'Ext.data.Model',
+		fields : [{
+			name : 'id',
+			type : 'int'
+		}, {
+			name : 'yesno',
+			type : 'string'
+		}]
+	});
+	
+	var store = Ext.create('Ext.data.Store',{
+		model : Sel,
+		data : [['1','是'],['2','否']]
+	})
+	
 	var treeStore = Ext.create('Ext.data.TreeStore', {
 		model : Task,
 		root : {
@@ -121,31 +137,40 @@ var taskManageFn = function() {
 
 	// 删除任务
 	var delTaskFn = function() {
-		var delRecord = treeGrid.getSelectionModel().getLastSelected();//获取用户当前点击的记录
-		if(delRecord.hasChildNodes()){
-			new Ext.Window({
-				id : "addWin",
-				title : titleText,
-				width : 400,
-				height : 225,
-				resizable : false,
-				modal : true
-				
-			}).show();
+		var delRecord = treeGrid.getSelectionModel().getLastSelected();// 获取用户当前点击的记录
+		if (delRecord.hasChildNodes()) {
+			Ext.MessageBox.confirm('警告', '确定删除该任务及其子任务 ?', result);
+			function result(btn) {// MessageBox的回调函数
+				if (btn == "yes")
+					delRecord.remove();// 删除该记录(子任务也一起删除)
+			}
+		} else {
+			Ext.MessageBox.confirm('警告', '确定删除该任务 ?', result);
+			function result(btn) {
+				if (btn == "yes")
+					delRecord.remove();
+			}
 		}
-//		delRecord.remove();//删除该记录
 	}
 
+//	var yesorno = [['1','是'],['2','否']];
+//	var proxy = new Ext.data.MemoryProxy(yesorno);
+//	var yesno = Ext.data.Record.create([{name:'id',type:'int'},{name:'cname',type:'string'}]);
+//	var reader = Ext.data.ArrayReader({},yesno);
+//	var store = new Ext.data.Store(
+//		[['1','shi'],['2','fou']]
+//	);
+	
 	var gridCols = [ {
 		xtype : 'treecolumn',
 		text : '任务名称',
-		dataIndex : 'task_name'
-	}, {
-		text : '工期',
-		dataIndex : 'time_limit',
+		dataIndex : 'task_name',
 		editor : {
 			xtype : 'textfield'
 		}
+	}, {
+		text : '工期',
+		dataIndex : 'time_limit',
 	}, {
 		text : '开始时间',
 		dataIndex : 'start_day',
@@ -164,13 +189,27 @@ var taskManageFn = function() {
 		}
 	}, {
 		text : '任务状态',
-		dataIndex : 'task_status'
+		dataIndex : 'task_status',
 	}, {
 		text : '任务简介',
-		dataIndex : 'task_ intr'
+		dataIndex : 'task_ intr',
+		editor : {
+			xtype : 'textfield'
+		}
 	}, {
 		text : '是否设置为里程碑',
-		dataIndex : 'is_stone'
+		dataIndex : 'is_stone',
+		editor: {
+			xtype : 'combobox',
+			editable : false,
+			displayField : 'yesno',
+			valueField : 'id',
+			mode : 'local',
+			store : new Ext.data.SimpleStore({
+				fields : [['id'],['yesno']],
+				data : [['1','是'],['2','否']]
+			})
+		}
 	} ];
 
 	var cellEditPlugin = Ext.create('Ext.grid.plugin.CellEditing', {
