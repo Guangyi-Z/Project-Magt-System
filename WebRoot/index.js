@@ -1,4 +1,5 @@
 var _center;
+
 Ext.onReady(function() {
 
 	var _top = new Ext.Toolbar({
@@ -21,16 +22,16 @@ Ext.onReady(function() {
 					text : '我的账号',
 					handler : function() {
 					}
-				}, '-', {
+				}/*, '-', {
 					text : '测试按钮',
 					handler : function() {
 						_center.removeAll();
 						_center.add(taskManageFn());
 					}
-				}]
+				}*/]
 	});
 	
-	var _center = Ext.create('Ext.panel.Panel', {
+	 _center = Ext.create('Ext.panel.Panel', {
 				layout : "border",
 				region : 'center',
 				items : [proManageFun()]

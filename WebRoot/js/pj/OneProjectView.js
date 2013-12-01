@@ -1,4 +1,5 @@
-var OnePrijectViewFun = function(proName) {
+var OneProjectViewFun = function(proID) {
+
 	var btn_mem = new Ext.Button({
 		text : "管理成员",
 		tooltip : "管理成员",
@@ -8,7 +9,11 @@ var OnePrijectViewFun = function(proName) {
 	var btn_task = new Ext.Button({
 		text : "管理任务",
 		tooltip : "管理任务",
-		id : "manaTask"
+		id : "manaTask",
+		handler : function() {
+			_center.removeAll();
+			_center.add(taskManageFn());
+		}
 	});
 
 	var btn_proInfo = new Ext.Button({
@@ -17,11 +22,11 @@ var OnePrijectViewFun = function(proName) {
 		id : "manaProInfo"
 	});
 
-	_grid = Ext.create('Ext.panel.Panel', {
-		title : proName,	// 当前项目名
+	pro_grid = Ext.create('Ext.panel.Panel', {
+		title : '当前项目名称',	// 当前项目名称
 		region : 'center',
 		tbar : [btn_mem, '-', btn_task, '-', btn_proInfo],
 	});
 
-	return _grid;
+	return pro_grid;
 }

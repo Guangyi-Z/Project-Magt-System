@@ -1,3 +1,6 @@
+/**
+ * @return
+ */
 var proManageFun = function() {
 	var pageSize = 20;
 
@@ -123,8 +126,9 @@ var proManageFun = function() {
 				id : "viewPro",
 				iconCls : 'icon_btn_view',
 				handler : function() {
-					var proName= '';	// 选中项目的项目名称
-					new OnePrijectViewFun(proName);
+					var proID;	// 选中项目的ID
+					_center.removeAll();
+					_center.add(OneProjectViewFun(proID));
 				}
 			});
 
@@ -158,7 +162,7 @@ var proManageFun = function() {
 				text : "查找项目",
 				tooltip : "查找项目",
 				id : "searchType",
-				iconCls : 'icon-btn-search'
+				iconCls : 'icon-btn-search'	
 			});
 
 	Ext.create('Ext.data.Store', {
