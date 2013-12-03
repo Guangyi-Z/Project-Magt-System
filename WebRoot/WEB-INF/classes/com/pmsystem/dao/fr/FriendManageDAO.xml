@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pmsystem.dao.fr.FriendManageDAO">
+	<resultMap type="com.pmsystem.model.fr.Friend" id="FriendMap">
+		<result property="id" column="好友ID"></result>
+		<result property="remark" column="好友备注"></result>
+	</resultMap>
+
+	<select id="findAllFriend" resultMap="FriendMap">
+		select 好友.好友ID, 好友.好友备注
+		from 好友
+		where 员工ID = #{MyID}
+	</select>
+</mapper>
