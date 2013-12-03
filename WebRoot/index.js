@@ -22,21 +22,26 @@ Ext.onReady(function() {
 					text : '我的账号',
 					handler : function() {
 					}
-				}/*, '-', {
+				}, '-', {
 					text : '测试按钮',
 					handler : function() {
 						_center.removeAll();
-						_center.add(taskManageFn());
+						var p = Ext.create('Ext.panel.Panel', {
+									title:'Gan!!!',
+									region : 'center',
+									html:"<iframe width='100%' height='100%' src='gan/test2.html'></iframe>"
+								});
+						_center.add(p);
 					}
-				}*/]
+				}]
 	});
-	
-	 _center = Ext.create('Ext.panel.Panel', {
+
+	_center = Ext.create('Ext.panel.Panel', {
 				layout : "border",
 				region : 'center',
 				items : [proManageFun()]
 			});
-	//var _center = proManageFun();
+	// var _center = proManageFun();
 	var _bottom = new Ext.Panel({
 				region : "south",
 				frame : false,
