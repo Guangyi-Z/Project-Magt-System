@@ -120,6 +120,7 @@ var proManageFun = function() {
 
 	}
 	
+	// 删除操作
 	var deleteFn = function(){
 		var _selectModel = _grid.getSelectionModel();
 		if(_selectModel.hasSelection()) {
@@ -134,12 +135,8 @@ var proManageFun = function() {
 							},
 							method : 'POST',
 							success : function(){
-								
 									Ext.example.msg("删除项目", "删除成功", "msg-box-success");
 									 _grid.getStore().reload(); //
-									
-									
-								
 							},
 							failure : function() {
 								Ext.example.msg("警告", "删除项目失败", "msg-box-error");
@@ -170,7 +167,7 @@ var proManageFun = function() {
 				id : "delPro",
 				iconCls : 'icon-btn-del',
 				handler : function() {
-						new deleteFn();
+					new deleteFn();
 				}
 			});
 
@@ -217,7 +214,7 @@ var proManageFun = function() {
 						type : "Date"
 					}, {
 						name : "status",
-						type : "string"
+						type : "string"	
 					}, {
 						name : "desc",
 						type : "string"

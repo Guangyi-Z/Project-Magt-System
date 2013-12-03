@@ -21,10 +21,12 @@
 		<result property = "desc" column = "项目简介"></result>
 	<!-- 暂未考虑确认项目经理 -->
 	</resultMap>
+	
 	<delete id="deleteProject" parameterType = "String">
 		DELETE FROM 项目
 		WHERE 项目ID = #{id}
 	</delete>
+	
 	<select id = "getAllProjectCount" parameterType = "map" resultMap = "ProjectMap">
 		SELECT TOP ${limit} * FROM 项目
 		WHERE 项目ID NOT IN(

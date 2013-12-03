@@ -22,9 +22,9 @@ public class ProjectManageServiceImpl implements ProjectManageService {
 
 		Date startDate = new Date(project.getStartDate().toString());
 		if (startDate.after(today)) {
-			project.setStatus("δ����");
+			project.setStatus("执行中");
 		} else {
-			project.setStatus("ִ����");
+			project.setStatus("未启动");
 		}
 		try {
 			projectManageDAO.addProject(project);
