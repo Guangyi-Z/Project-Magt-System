@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONObject;
+
 import org.apache.struts2.components.Else;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -21,6 +23,10 @@ public class ProjectManageAction extends ActionSupport {
 	private int totalCount;
 	private int start;
 	private int limit;
+	
+	// 下列变量用作项目任务管理
+	String prj;
+	String result;
 
 	
 	public ProjectManageAction(){
@@ -84,6 +90,16 @@ public class ProjectManageAction extends ActionSupport {
 			jsonMap.put("success", false);
 		return SUCCESS;
 	}
+	
+	public String storeProjectId(){
+		jsonMap.clear();
+		System.out.println("将要查看的项目ID："+id);
+		TaskManageAction.setProId(id);
+		//TaskManageAction.proId= Integer.parseInt(id);	// set the project id of Task Action
+		jsonMap.put("success", true);
+		return SUCCESS;
+	}
+	
 	public Project getProject() {
 		return project;
 	}
@@ -154,6 +170,22 @@ public class ProjectManageAction extends ActionSupport {
 
 	public void setLimit(int limit) {
 		this.limit = limit;
+	}
+
+	public String getPrj() {
+		return prj;
+	}
+
+	public void setPrj(String prj) {
+		this.prj = prj;
+	}
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
 	}
 	
 }

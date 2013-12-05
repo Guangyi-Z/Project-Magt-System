@@ -6,5 +6,8 @@
 	<bean id = "projectManageAction" class = "com.pmsystem.action.pj.ProjectManageAction">
 		<property name="projectManageService" ref="projectManageService"/>
 	</bean>
+	<bean id = "taskManageAction" class = "com.pmsystem.action.pj.TaskManageAction">
+		<property name="taskManageService" ref="taskManageService"/>
+	</bean>
 	
 </beans>

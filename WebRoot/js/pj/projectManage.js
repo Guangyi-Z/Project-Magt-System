@@ -155,9 +155,32 @@ var proManageFun = function() {
 				id : "viewPro",
 				iconCls : 'icon_btn_view',
 				handler : function() {
-					var proID;	// 选中项目的ID
-					_center.removeAll();
-					_center.add(OneProjectViewFun(proID));
+					var _selectModel = _grid.getSelectionModel();
+					if(_selectModel.hasSelection()) {
+						var ID = _selectModel.getLastSelected().get("id");	//选中项目ID
+						_center.removeAll();
+						// 先存储选中项目ID到Action
+						Ext.Ajax.request({
+							url : "Project/storeProjectId.action",
+							params : {
+								"id" : ID
+							},
+							method : 'POST',
+							success : function(){
+								var p = Ext.create('Ext.panel.Panel', {
+									title:'Gan!!!',
+									region : 'center',
+									html:"<iframe width='100%' height='100%' src='gan/gantt.html'></iframe>"
+								});
+								_center.add(p);
+							},
+							failure : function() {
+								Ext.example.msg("警告", "上传项目ID失败", "msg-box-error");
+							}
+						});
+					} else {
+						Ext.example.msg("警告", "请选择要查看的项目", "msg-box-error");
+					}
 				}
 			});
 

@@ -51,4 +51,18 @@
 	<select id="getCount" resultType = "int">
 		SELECT count(*) FROM 项目
 	</select>
+	
+	<!-- For Task Magt -->
+	<delete id="deleteTasksOfProject" parameterType = "String">
+		DELETE FROM 项目_任务
+		WHERE 项目ID = #{proId}
+	</delete>
+	<insert id="insertTasksOfProject" parameterType = "map" >
+		INSERT INTO 项目_任务(项目ID, 任务ID, 任务JSON描述)
+		VALUES (#{projectId}, #{taskId}, #{json});
+	</insert>
+	<select id="findTasksOfProject" parameterType = "String" resultType = "String">
+		SELECT 任务JSON描述 FROM 项目_任务 WHERE 项目ID = #{proId}
+	</select>
+	
 </mapper>

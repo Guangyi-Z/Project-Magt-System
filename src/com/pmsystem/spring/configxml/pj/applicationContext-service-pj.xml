@@ -6,4 +6,7 @@
 	<bean id="projectManageService" class="com.pmsystem.service.impl.pj.ProjectManageServiceImpl">
 		<property name="projectManageDAO" ref="projectManageDAO"/>
 	</bean>
+	<bean id="taskManageService" class="com.pmsystem.service.impl.pj.TaskManageServiceImpl">
+		<property name="projectManageDAO" ref="projectManageDAO"/>
+	</bean>
 </beans>

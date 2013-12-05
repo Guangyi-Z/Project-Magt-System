@@ -22,7 +22,7 @@ Ext.onReady(function() {
 					text : '我的账号',
 					handler : function() {
 					}
-				}, '-', {
+				}/*, '-', {
 					text : '测试按钮',
 					handler : function() {
 						_center.removeAll();
@@ -33,7 +33,7 @@ Ext.onReady(function() {
 								});
 						_center.add(p);
 					}
-				}]
+				}*/]
 	});
 
 	_center = Ext.create('Ext.panel.Panel', {

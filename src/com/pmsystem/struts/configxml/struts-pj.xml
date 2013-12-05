@@ -9,4 +9,14 @@
 			<interceptor-ref name="defaultStack"></interceptor-ref>
 		</action>
 	</package>
+	<package name="gan" namespace="/gan" extends="json-default">
+		<action name="saveTasks*" class="com.pmsystem.action.pj.TaskManageAction" method="saveTasks">
+			<result name="save" type="json">
+			</result>
+		</action>
+		<action name="findTasksByProjectID*" class="com.pmsystem.action.pj.TaskManageAction" method="findTasksByProjectID">
+			<result name="load" type="json">
+			</result>
+		</action>
+	</package>
 </struts>
