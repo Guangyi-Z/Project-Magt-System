@@ -3,247 +3,288 @@ var friendManageFunc = function() {
 	var pageSize = 10;
 	var my_account_id; // 传参数进来
 
-	/*
-	 * ========= aux function in Handler ===========
-	 */
+	var pop_window_choose_project = function() {
 
-	var pop_window_choose_project = function(store, user_record) {
-
-		new Ext.Window({
-					id : "chooseprojectWindow",
-					title : "请选择项目",
-					width : 700,
-					height : 400,
-					resizable : false,
-					modal : true,
-					closable : false,
-					items : [{
-								xtype : "grid",
-								// title: '用户信息',
-								id : 'choose_project_grid',
-								multiSelect : true,
-								selType : 'checkboxmodel',
-								store : store,
-								columns : [{
-											text : '项目ID',
-											dataIndex : 'project_id'
-										}, {
-											text : '项目名称',
-											dataIndex : 'project_name'
-										}]
-							}],
-					buttonAlign : 'center',
-					minButtonWidth : 80,
-					buttons : [{
-						text : "确定",
-						handler : function() {
-
-							var project_record = Ext
-									.getCmp("choose_project_grid")
-									.getSelectionModel().getSelection();
-
-							if (project_record.length == 0) {
-								Ext.MessageBox.show({
-											title : "提示",
-											msg : "请选择项目!"
-										})
-								return;
-							} else {
-								for (var j = 0; j < project_record.length; j++)
-									for (var i = 0; i < user_record.length; i++) {
-										// 邀请好友
-
-									}
-								// 提示操作是否成功
-
-								// 退出
-								Ext.getCmp("chooseprojectWindow").close();
-
-							}
-						}
-
-					}, {
-						text : "取消",
-						handler : function() {
-							Ext.getCmp("chooseprojectWindow").close();// 取消实际上就是关闭窗口
-						}
-					}]
-				}).show();
-	}
-
-	var pop_window_show_information = function(store) {
-
-		new Ext.Window({
-					id : "showinformationWindow",
-					title : "用户信息",
-					width : 700,
-					height : 200,
-					resizable : false,
-					modal : true,
-					closable : false,
-					items : [{
-								xtype : "grid",
-								// title: '用户信入息',
-								id : 'show_information_grid',
-								store : store,
-								columns : [{
-											text : '员工ID',
-											dataIndex : 'user_id'
-										}, {
-											text : '员工名称s',
-											dataIndex : 'user_name'
-										}, {
-											text : '电话号码',
-											dataIndex : 'user_phonenum'
-										}, {
-											text : 'Email',
-											dataIndex : 'user_email'
-										}, {
-											text : '员工简介',
-											dataIndex : 'user_introduction',
-											flex : 1
-										}]
-							}],
-					buttonAlign : 'center',
-					minButtonWidth : 80,
-					buttons : [{
-								text : "申请加入项目小组",
-								handler : function() {
-
-								}
-							}, {
-								text : "添加其为好友",
-								handler : function() {
-
-								}
-							}, {
-								text : "取消",
-								handler : function() {
-									Ext.getCmp("showinformationWindow").close();// 取消实际上就是关闭窗口
-								}
-							}]
-				}).show();
+		// var proWin = new Ext.Window({
+		// id : "finduserWindow",
+		// title : "查找项目",
+		// width : 525,
+		// height : 200,
+		// resizable : false,
+		// // modal : true,
+		// layout : 'border',
+		// closable : true,
+		// closeAction : 'destroy'
+		// }).show();
+		// console.log(proWin.getPosition());
 
 	}
-
-	/*
-	 * ========= Handler function ===========
-	 */
-
 	var btn_finduser_handler = function() {
 
-		new Ext.Window({
-			id : "finduserWindow",
-			title : "查找用户",
-			width : 300,
-			height : 100,
-			resizable : false,
-			modal : true,
-			closable : false,
-			textfieldAlign : 'left',
-			labelAlign : 'right',
-			items : [{
-						xtype : "form",
-						labelWidth : 10,
-						id : "finduserForm",
-						frame : true,
-						bodyStyle : "padding:5px 5px 0",
-						border : false,
-						waitMsgTarget : true,// true的意思是说表单提交时的等待信息在这个表单之内显示，而不是弹出框(进度条形式的)
-						defaultType : "textfield",
-						items : [{
-									id : "userid",
-									fieldLabel : "请输入用户ID",
-									name : "userid",
-									allowBlank : false,
-									emptyText : "请输入用户ID"
-								}]
-					}],
-			buttonAlign : 'center',
-			minButtonWidth : 80,
-			buttons : [{
+		Ext.define('Staff', {
+					extend : 'Ext.data.Model',
+					fields : [{
+								name : "id",
+								type : "string"
+							}, {
+								name : "name",
+								type : "string"
+							}, {
+								name : "phoneNum",
+								type : "string"
+							}, {
+								name : "email",
+								type : "string"
+							}, {
+								name : "intro",
+								type : "string"
+							}]
+				});
+
+		var store_Staff = Ext.create('Ext.data.Store', {
+					model : 'Staff',
+					storeId : 'StaffStore',
+					proxy : {
+						type : 'ajax',
+						url : 'Friend/findStaff.action',
+						method : 'POST',
+						reader : {
+							type : 'json',
+							root : 'staffs',
+							totalProperty : 'totalCount',
+							idProperty : 'id'
+						}
+					}
+				});
+		var sm_Staff = new Ext.selection.RowModel({
+					mode : 'SINGLE'
+				});
+
+		var grid_Staff = Ext.create('Ext.grid.Panel', {
+					store : Ext.data.StoreManager.lookup('StaffStore'),
+					selModel : sm_Staff,
+					columnLines : true,
+					region : 'center',
+					columns : [{
+								text : '员工ID',
+								dataIndex : 'id'
+							}, {
+								text : '名称',
+								dataIndex : 'name'
+							}, {
+								text : '电话号码',
+								dataIndex : 'phoneNum'
+							}, {
+								text : 'Email',
+								dataIndex : 'email'
+							}, {
+								text : '员工简介',
+								dataIndex : 'intro'
+							}],
+
+					frame : true,
+
+					tbar : [{
+						xtype : 'button',
+						iconCls : 'icon_btn_view',
+						text : "添加好友",
+						handler : function() {
+							var selectedModel = grid_Staff.getSelectionModel();
+							if (selectedModel.hasSelection()) {
+								var FriendID = selectedModel.getLastSelected()
+										.get("id");
+								Ext.Ajax.request({
+											url : "Friend/addFriend.action",
+											params : {
+												"FriendID" : FriendID,
+												"MyID" : "testID"
+											},
+											method : 'POST',
+											success : function() {
+
+												Ext.example.msg("添加好友", "添加成功",
+														"msg-box-success");
+												grid.getStore().reload();
+
+											},
+											failure : function() {
+												Ext.example.msg("警告", "添加好友失败",
+														"msg-box-error");
+											}
+										});
+							} else {
+								Ext.example.msg("警告", "请选择要添加的好友",
+										"msg-box-error");
+							}
+						}
+					}, '-', {
+						xtype : 'button',
+						id : 'id_view_projects',
+						iconCls : 'icon_btn_view',
+						text : "查看项目",
+						handler : function() {
+
+							var _selectModel = grid_Staff.getSelectionModel();
+							if (_selectModel.hasSelection()) {
+								var ID = _selectModel.getLastSelected()
+										.get("id");
+								findFriendWin.removeAll();
+								findFriendWin.add(grid_Project);
+								store_Project.load({
+											params : {
+												'FriendID' : ID
+											}
+										});
+							} else {
+								Ext.example.msg("警告", "请选择要查看的好友",
+										"msg-box-error");
+							}
+
+						}
+					}, '->', {
+						id : 'staffID',
+						xtype : 'textfield',
+						emptyText : '请输入用户ID',
+						allowBlank : false
+					}, {
+						xtype : 'button',
+						iconCls : 'icon_btn_view',
 						text : "查找",
 						handler : function() {
 
 							// / 读取用户的输入
-							var user_id = Ext.getCmp("userid").getValue();
+							var StaffID = Ext.getCmp("staffID").getValue();
 
-							// / 查询数据库
-							var temp_store = Ext.create('Ext.data.Store', {
-										storeId : 'simpsonsStore',
-										fields : [{
-													name : 'user_id'
-												}, {
-													name : 'user_name'
-												}, {
-													name : 'user_phonenum'
-												}, {
-													name : 'user_email'
-												}, {
-													name : 'user_introduction'
-												}],
-										data : {
-											'items' : [{
-														'user_id' : 'Bart',
-														'user_name' : 'name',
-														'user_phonenum' : 'Bart',
-														'user_email' : 'Bart@126.com',
-														'user_introduction' : 'Bart'
-													}, {
-														'user_id' : 'Bart',
-														'user_name' : 'name',
-														'user_phonenum' : 'Bart',
-														'user_email' : 'Bart@126.com',
-														'user_introduction' : 'Bart'
-													}, {
-														'user_id' : 'Bart',
-														'user_name' : 'name',
-														'user_phonenum' : 'Bart',
-														'user_email' : 'Bart@126.com',
-														'user_introduction' : 'Bart'
-													}]
-										},
-										proxy : {
-											type : 'memory',
-											reader : {
-												type : 'json',
-												root : 'items'
-											}
+							store_Staff.load({
+										params : {
+											'StaffID' : StaffID
 										}
+
 									});
 
-							// / 弹出新窗口显示用户信息
-							new pop_window_show_information(temp_store);
-
 						}
 
-					}, {
-						text : "取消",
+					}]
+				});
+
+		Ext.define('Project', {
+					extend : 'Ext.data.Model',
+					fields : [{
+								name : "id",
+								type : "string"
+							}, {
+								name : "name",
+								type : "string"
+							}, {
+								name : "startDate",
+								type : "string"
+							}, {
+								name : "finishDate",
+								type : "string"
+							}, {
+								name : "status",
+								type : "string"
+							}]
+				});
+		var FriendID = "beforeChange";
+
+		var store_Project = Ext.create('Ext.data.Store', {
+					model : 'Project',
+					storeId : 'ProjectStore',
+					proxy : {
+						type : 'ajax',
+						url : 'Friend/findProject.action',
+						method : 'POST',
+						reader : {
+							type : 'json',
+							root : 'projects',
+							totalProperty : 'totalCount',
+							idProperty : 'id'
+						},
+						extraParams : {
+							'FriendID' : FriendID
+						}
+					}
+				});
+		var sm_Project = new Ext.selection.RowModel({
+					mode : 'SINGLE'
+				});
+		var grid_Project = Ext.create('Ext.grid.Panel', {
+					store : Ext.data.StoreManager.lookup('ProjectStore'),
+					selModel : sm_Project,
+					columnLines : true,
+					region : 'center',
+					columns : [{
+								text : '项目编号',
+								dataIndex : 'id'
+							}, {
+								text : '项目名称',
+								dataIndex : 'name'
+							}, {
+								text : '开始时间',
+								dataIndex : 'startDate'
+							}, {
+								text : '结束时间',
+								dataIndex : 'finishDate'
+							}, {
+								text : '项目状态',
+								dataIndex : 'status'
+							}],
+
+					frame : true,
+					tbar : [{
+						xtype : 'button',
+						iconCls : 'icon_btn_view',
+						text : "申请加入",
 						handler : function() {
-							Ext.getCmp("finduserWindow").close();// 取消实际上就是关闭窗口
+							var selectedModel = grid_Project
+									.getSelectionModel();
+							if (selectedModel.hasSelection()) {
+								var ProjectID = selectedModel.getLastSelected()
+										.get("id");
+								Ext.Ajax.request({
+											url : "Friend/applyForProject.action",
+											params : {
+												"MyID":'testID',
+												"ProjectID" : ProjectID
+											},
+											method : 'POST',
+											success : function() {
+
+												Ext.example.msg("申请加入项目",
+														"申请成功",
+														"msg-box-success");
+												grid.getStore().reload();
+
+											},
+											failure : function() {
+												Ext.example.msg("警告", "申请失败",
+														"msg-box-error");
+											}
+										});
+							} else {
+								Ext.example.msg("警告", "请选择要申请加入的项目",
+										"msg-box-error");
+							}
 						}
 					}]
-		}).show();
-	}
+				});
 
-	var btn_deleteuser_handler = function() {
-
-		var record = grid.getSelectionModel().getSelection();
-		if (record.length == 0) {
-			Ext.MessageBox.show({
-						title : "提示",
-						msg : "请先选择您要删除的好友!"
-					})
-			return;
-		} else {
-			for (var i = 0; i < record.length; i++) {
-				// / 删除页面上的数据
-				ds.remove(record[i]);
-
-				// / 删除后台数据库的数据
-			}
-		}
-
+		var findFriendWin = new Ext.Window({
+					id : "finduserWindow",
+					title : "查找用户",
+					width : 525,
+					height : 200,
+					resizable : false,
+					modal : true,
+					closable : true,
+					closeAction : 'destroy',
+					layout : 'border',
+					animateTarget : 'btn_finduser',
+					textfieldAlign : 'left',
+					labelAlign : 'right',
+					items : [grid_Staff]
+				}).show();
 	}
 
 	var btn_invite_handler = function() {
@@ -441,7 +482,7 @@ var friendManageFunc = function() {
 				tooltip : "删除好友",
 				id : "btn_deleteuser",
 				handler : function() {
-					new btn_deleteuser_handler();
+					new deleteFn();
 				}
 			});
 	// 邀请加入项目
@@ -472,11 +513,39 @@ var friendManageFunc = function() {
 				}
 			});
 
-	/*
-	 * ========= Grid Definition ===========
-	 */
-	// ///// 创建表格
-	// model,store,grid
+	var deleteFn = function() {
+		var _selectModel = grid.getSelectionModel();
+		if (_selectModel.hasSelection()) {
+			var ID = _selectModel.getLastSelected().get("id");
+
+			Ext.MessageBox.confirm("删除好友", "你将永久删除此好友，不可恢复！", function(btnId) {
+						if (btnId == "yes") {
+							Ext.Ajax.request({
+										url : "Friend/deleteFriend.action",
+										params : {
+											"FriendID" : ID,
+											"MyID" : "testID"
+										},
+										method : 'POST',
+										success : function() {
+
+											Ext.example.msg("删除好友", "删除成功",
+													"msg-box-success");
+											grid.getStore().reload(); //
+
+										},
+										failure : function() {
+											Ext.example.msg("警告", "删除好友失败",
+													"msg-box-error");
+										}
+									});
+						}
+					});
+		} else {
+			Ext.example.msg("警告", "请选择要删除的好友", "msg-box-error");
+		}
+	}
+
 	Ext.define('Friend', {
 				extend : 'Ext.data.Model',
 				fields : [{
@@ -533,16 +602,13 @@ var friendManageFunc = function() {
 						'-', btn_showinformation, '-', btn_modifyremark],
 				bbar : new Ext.PagingToolbar({
 							id : "toolbar1",
-							store : Ext.data.StoreManager
-									.lookup('myStore'),
+							store : Ext.data.StoreManager.lookup('myStore'),
 							pageSize : pageSize,
 							displayInfo : true,
 							displayMsg : "第 {0} - {1} 条&nbsp;&nbsp;共 {2} 条",
 							emptyMsg : "没有记录"
 						})
 			});
-
-	// ///////////////////////////////////////////////////////
 
 	return grid;
 

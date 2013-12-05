@@ -6,9 +6,60 @@
 		<result property="remark" column="好友备注"></result>
 	</resultMap>
 
+	<resultMap type="com.pmsystem.model.fr.Staff" id="StaffMap">
+		<result property="id" column="员工ID"></result>
+		<result property="name" column="员工名称"></result>
+		<result property="phoneNum" column="电话号码"></result>
+		<result property="email" column="Email"></result>
+		<result property="intro" column="员工简介"></result>
+	</resultMap>
+
+	<resultMap type="Project" id="ProjectMap">
+		<id property="id" column="项目ID"></id>
+		<result property="name" column="项目名称"></result>
+		<result property="startDate" column="开始时间"></result>
+		<result property="finishDate" column="结束时间"></result>
+		<result property="status" column="项目状态"></result>
+		<result property="desc" column="项目简介"></result>
+	</resultMap>
+
 	<select id="findAllFriend" resultMap="FriendMap">
 		select 好友.好友ID, 好友.好友备注
 		from 好友
 		where 员工ID = #{MyID}
+	</select>
+
+	<delete id="deleteFriend">
+		DELETE FROM 好友
+		WHERE 好友ID = #{FriendID}
+		AND 员工ID =
+		#{MyID}
+	</delete>
+
+	<select id="findStaff" resultMap="StaffMap">
+		select *
+		from 员工
+		where 员工ID like
+		#{StaffID}
+	</select>
+
+	<select id="addFriend">
+		insert into 好友 (员工ID,好友ID)
+		values(#{MyID},#{FriendID}); 
+	</select>
+
+	<select id="findProject" resultMap="ProjectMap">
+		use PMS;
+		select
+		项目.项目ID,项目名称,开始时间,结束时间,项目状态,项目简介
+		from 项目,项目_员工
+		where 项目_员工.员工ID =
+		#{FriendID}
+		and 项目.项目ID = 项目_员工.项目ID
+	</select>
+
+	<select id="applyForProject">
+		insert into 项目_员工 (项目ID,员工ID)
+		values(#{ProjectID},#{MyID}); 
 	</select>
 </mapper>
