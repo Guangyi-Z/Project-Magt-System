@@ -6,9 +6,48 @@
 		<result property="remark" column="好友备注"></result>
 	</resultMap>
 
+	<resultMap type="com.pmsystem.model.fr.FProject" id="FProjectMap">
+		<result property="project_id" column="项目ID"></result>
+		<result property="project_name" column="项目名称"></result>
+	</resultMap>
+
+	<resultMap type="com.pmsystem.model.fr.UserInformation" id="UserInformationMap">
+		<result property="user_id" column="员工ID"></result>
+		<result property="user_name" column="员工名称"></result>
+		<result property="user_phonenum" column="电话号码"></result>
+		<result property="user_email" column="Email"></result>
+		<result property="user_introduction" column="员工简介"></result>
+	</resultMap>
+
+
 	<select id="findAllFriend" resultMap="FriendMap">
 		select 好友.好友ID, 好友.好友备注
 		from 好友
 		where 员工ID = #{MyID}
 	</select>
+
+	<select id="modifyRemark">
+		update 好友
+		set 好友备注 = #{friend_remark}
+		where 员工ID = #{MyID} and 好友ID = #{friend_id}
+	</select>
+	
+	<select id="getProject"  resultMap="FProjectMap">
+		select 项目.项目ID, 项目.项目名称
+		from 项目,项目_员工
+		where 项目.项目ID = 项目_员工.项目ID and 项目_员工.员工ID = #{MyID}
+	</select>
+	
+	<insert id="inviteFriendToProject" >
+		insert into 项目_员工
+		values(#{project_id},#{friend_id},'null','null')
+	</insert>
+	
+	<select id="getUserInformation"  resultMap="UserInformationMap">
+		select 员工ID,员工名称,电话号码,Email,员工简介
+		from 员工
+		where 员工ID = #{friend_id}
+	</select>
+	
+	
 </mapper>
