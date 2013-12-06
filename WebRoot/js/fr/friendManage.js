@@ -1,10 +1,8 @@
 var friendManageFunc = function() {
 
 	var pageSize = 10;
-	var my_account_id; // 传参数进来
-<<<<<<< HEAD
+	//var my_account_id; // 传参数进来
     var MyID = 'testID';
-	
 	
 	/*
 	 * ========= aux function in Handler ===========
@@ -83,45 +81,113 @@ var friendManageFunc = function() {
 
 					, {
 						text : "取消",
-=======
+						handler : function() {
+							Ext.getCmp("chooseprojectWindow").close();// 取消实际上就是关闭窗口
+						}
+					}]
+				}).show();
+	}
 
-	var pop_window_choose_project = function() {
+	var pop_window_show_information = function(store,friend_id) {
 
-		// var proWin = new Ext.Window({
-		// id : "finduserWindow",
-		// title : "查找项目",
-		// width : 525,
-		// height : 200,
-		// resizable : false,
-		// // modal : true,
-		// layout : 'border',
-		// closable : true,
-		// closeAction : 'destroy'
-		// }).show();
-		// console.log(proWin.getPosition());
+		new Ext.Window({
+					id : "showinformationWindow",
+					title : "用户信息",
+					width : 700,
+					height : 200,
+					resizable : false,
+					modal : true,
+					closable : false,
+					items : [{
+								xtype : "grid",
+								// title: '用户信息',
+								id : 'show_information_grid',
+								store : store,
+								columns : [{
+											text : '员工ID',
+											dataIndex : 'user_id'
+										}, {
+											text : '员工名称',
+											dataIndex : 'user_name'
+										}, {
+											text : '电话号码',
+											dataIndex : 'user_phonenum'
+										}, {
+											text : 'Email',
+											dataIndex : 'user_email'
+										}, {
+											text : '员工简介',
+											dataIndex : 'user_introduction',
+											flex : 1
+										}]
+							}],
+					buttonAlign : 'center',
+					minButtonWidth : 80,
+					buttons : [{
+								text : "申请加入项目小组",
+								handler : function() {
+										
+													var temp_store = Ext.create('Ext.data.Store', {
+																			model : 'FProject',
+																			storeId : 'fprojectStore',
+																			proxy : {
+																				type : 'ajax',
+																				url : 'Friend/getProject.action',
+																				method : 'POST',
+																				reader : {
+																					type : 'json',
+																					root : 'fprojects',
+																					totalProperty : 'totalCount',
+																					idProperty : 'id'
+																				},
+																				extraParams : {
+																					'MyID' : friend_id
+																				}
+																			},
+																			autoLoad : true
+																		});
+
+										
+													// 弹出用户已经参加的项目
+													new pop_window_choose_project(temp_store, MyID);									
+									
+									
+								}
+							}, {
+								text : "取消",
+								handler : function() {
+									Ext.getCmp("showinformationWindow").close();// 取消实际上就是关闭窗口
+								}
+							}]
+				}).show();
 
 	}
+
+	/*
+	 * ========= Handler function ===========
+	 */
+
 	var btn_finduser_handler = function() {
 
 		Ext.define('Staff', {
-					extend : 'Ext.data.Model',
-					fields : [{
-								name : "id",
-								type : "string"
-							}, {
-								name : "name",
-								type : "string"
-							}, {
-								name : "phoneNum",
-								type : "string"
-							}, {
-								name : "email",
-								type : "string"
-							}, {
-								name : "intro",
-								type : "string"
-							}]
-				});
+							extend : 'Ext.data.Model',
+							fields : [{
+										name : "id",
+										type : "string"
+									}, {
+										name : "name",
+										type : "string"
+									}, {
+										name : "phoneNum",
+										type : "string"
+									}, {
+										name : "email",
+										type : "string"
+									}, {
+										name : "intro",
+										type : "string"
+									}]
+						});
 
 		var store_Staff = Ext.create('Ext.data.Store', {
 					model : 'Staff',
@@ -204,91 +270,8 @@ var friendManageFunc = function() {
 						id : 'id_view_projects',
 						iconCls : 'icon_btn_view',
 						text : "查看项目",
->>>>>>> origin/weapon2
 						handler : function() {
 
-<<<<<<< HEAD
-	var pop_window_show_information = function(store,friend_id) {
-
-		new Ext.Window({
-					id : "showinformationWindow",
-					title : "用户信息",
-					width : 700,
-					height : 200,
-					resizable : false,
-					modal : true,
-					closable : false,
-					items : [{
-								xtype : "grid",
-								// title: '用户信息',
-								id : 'show_information_grid',
-								store : store,
-								columns : [{
-											text : '员工ID',
-											dataIndex : 'user_id'
-										}, {
-											text : '员工名称',
-											dataIndex : 'user_name'
-										}, {
-											text : '电话号码',
-											dataIndex : 'user_phonenum'
-										}, {
-											text : 'Email',
-											dataIndex : 'user_email'
-										}, {
-											text : '员工简介',
-											dataIndex : 'user_introduction',
-											flex : 1
-										}]
-							}],
-					buttonAlign : 'center',
-					minButtonWidth : 80,
-					buttons : [{
-								text : "申请加入项目小组",
-								handler : function() {
-										
-													var temp_store = Ext.create('Ext.data.Store', {
-																			model : 'FProject',
-																			storeId : 'fprojectStore',
-																			proxy : {
-																				type : 'ajax',
-																				url : 'Friend/getProject.action',
-																				method : 'POST',
-																				reader : {
-																					type : 'json',
-																					root : 'fprojects',
-																					totalProperty : 'totalCount',
-																					idProperty : 'id'
-																				},
-																				extraParams : {
-																					'MyID' : friend_id
-																				}
-																			},
-																			autoLoad : true
-																		});
-
-										
-													// 弹出用户已经参加的项目
-													new pop_window_choose_project(temp_store, MyID);									
-									
-									
-								}
-							}, {
-								text : "取消",
-								handler : function() {
-									Ext.getCmp("showinformationWindow").close();// 取消实际上就是关闭窗口
-								}
-							}]
-				}).show();
-
-	}
-
-	/*
-	 * ========= Handler function ===========
-	 */
-
-	var btn_finduser_handler = function() {
-=======
 							var _selectModel = grid_Staff.getSelectionModel();
 							if (_selectModel.hasSelection()) {
 								var ID = _selectModel.getLastSelected()
@@ -304,7 +287,6 @@ var friendManageFunc = function() {
 								Ext.example.msg("警告", "请选择要查看的好友",
 										"msg-box-error");
 							}
->>>>>>> origin/weapon2
 
 						}
 					}, '->', {
@@ -319,15 +301,6 @@ var friendManageFunc = function() {
 						handler : function() {
 
 							// / 读取用户的输入
-<<<<<<< HEAD
-							var user_id = Ext.getCmp("userid").getValue();
-
-							
-															
-									
-							// / 弹出新窗口显示用户信息
-							new pop_window_show_information(temp_store);
-=======
 							var StaffID = Ext.getCmp("staffID").getValue();
 
 							store_Staff.load({
@@ -341,7 +314,6 @@ var friendManageFunc = function() {
 
 					}]
 				});
->>>>>>> origin/weapon2
 
 		Ext.define('Project', {
 					extend : 'Ext.data.Model',
@@ -462,6 +434,8 @@ var friendManageFunc = function() {
 					items : [grid_Staff]
 				}).show();
 	}
+
+
 
 	var btn_invite_handler = function() {
 		
@@ -682,6 +656,8 @@ var friendManageFunc = function() {
 					new btn_invite_handler();
 				}
 			});
+
+	
 	// / 查看资料
 	var btn_showinformation = new Ext.Button({
 				text : "查看资料",
@@ -691,6 +667,8 @@ var friendManageFunc = function() {
 					new btn_showinformation_handler();
 				}
 			});
+
+
 	// / 修改备注名
 	var btn_modifyremark = new Ext.Button({
 				text : "修改备注",
@@ -701,7 +679,42 @@ var friendManageFunc = function() {
 				}
 			});
 
-<<<<<<< HEAD
+    	var deleteFn = function() {
+		var _selectModel = grid.getSelectionModel();
+		if (_selectModel.hasSelection()) {
+			var ID = _selectModel.getLastSelected().get("id");
+
+			Ext.MessageBox.confirm("删除好友", "你将永久删除此好友，不可恢复！", function(btnId) {
+						if (btnId == "yes") {
+							Ext.Ajax.request({
+										url : "Friend/deleteFriend.action",
+										params : {
+											"FriendID" : ID,
+											"MyID" : "testID"
+										},
+										method : 'POST',
+										success : function() {
+
+											Ext.example.msg("删除好友", "删除成功",
+													"msg-box-success");
+											grid.getStore().reload(); //
+
+										},
+										failure : function() {
+											Ext.example.msg("警告", "删除好友失败",
+													"msg-box-error");
+										}
+									});
+						}
+					});
+		} else {
+			Ext.example.msg("警告", "请选择要删除的好友", "msg-box-error");
+		}
+	}
+
+
+
+
 	/*
 	 * ========= Grid Definition ===========
 	 */
@@ -740,41 +753,6 @@ var friendManageFunc = function() {
 				}]
 	});
 	
-=======
-	var deleteFn = function() {
-		var _selectModel = grid.getSelectionModel();
-		if (_selectModel.hasSelection()) {
-			var ID = _selectModel.getLastSelected().get("id");
-
-			Ext.MessageBox.confirm("删除好友", "你将永久删除此好友，不可恢复！", function(btnId) {
-						if (btnId == "yes") {
-							Ext.Ajax.request({
-										url : "Friend/deleteFriend.action",
-										params : {
-											"FriendID" : ID,
-											"MyID" : "testID"
-										},
-										method : 'POST',
-										success : function() {
-
-											Ext.example.msg("删除好友", "删除成功",
-													"msg-box-success");
-											grid.getStore().reload(); //
-
-										},
-										failure : function() {
-											Ext.example.msg("警告", "删除好友失败",
-													"msg-box-error");
-										}
-									});
-						}
-					});
-		} else {
-			Ext.example.msg("警告", "请选择要删除的好友", "msg-box-error");
-		}
-	}
-
->>>>>>> origin/weapon2
 	Ext.define('Friend', {
 				extend : 'Ext.data.Model',
 				fields : [{
@@ -832,13 +810,16 @@ var friendManageFunc = function() {
 						'-', btn_showinformation, '-', btn_modifyremark],
 				bbar : new Ext.PagingToolbar({
 							id : "toolbar1",
-							store : Ext.data.StoreManager.lookup('myStore'),
+							store : Ext.data.StoreManager
+									.lookup('myStore'),
 							pageSize : pageSize,
 							displayInfo : true,
 							displayMsg : "第 {0} - {1} 条&nbsp;&nbsp;共 {2} 条",
 							emptyMsg : "没有记录"
 						})
 			});
+
+	// ///////////////////////////////////////////////////////
 
 	return grid;
 

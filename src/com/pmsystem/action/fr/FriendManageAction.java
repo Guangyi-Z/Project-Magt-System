@@ -21,8 +21,10 @@ public class FriendManageAction extends ActionSupport{
 	private Map<String, Object> jsonMap;
 	private String MyID;
 	private FriendManageService friendManageService ;
-//	private Object[] fproject_array;
 	private String[] fproject_array;
+	private String StaffID;
+	private String FriendID;
+	private String ProjectID;
 	
 	public String[] getFproject_array() {
 		return fproject_array;
@@ -65,9 +67,6 @@ public class FriendManageAction extends ActionSupport{
 		this.userinformation = userinformation;
 	}
 
-	private String StaffID;
-	private String FriendID;
-	private String ProjectID;
 
 	public FriendManageAction() {
 		jsonMap = new HashMap<String, Object>();

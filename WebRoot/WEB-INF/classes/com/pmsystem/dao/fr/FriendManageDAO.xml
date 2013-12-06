@@ -87,7 +87,6 @@
 	</select>
 
 	<select id="findProject" resultMap="ProjectMap">
-		use PMS;
 		select
 		项目.项目ID,项目名称,开始时间,结束时间,项目状态,项目简介
 		from 项目,项目_员工
