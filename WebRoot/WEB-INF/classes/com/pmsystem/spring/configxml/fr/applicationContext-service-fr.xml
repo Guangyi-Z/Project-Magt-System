@@ -4,4 +4,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 	default-autowire="byName">
 
+	<bean id="friendManageService" class="com.pmsystem.service.impl.fr.FriendManageServiceImpl">
+	 	<property name="friendManageDAO" ref="friendManageDAO"/> 
+	</bean>
+
 </beans>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pmsystem.dao.fr.FriendManageDAO">
+	<resultMap type="com.pmsystem.model.fr.Friend" id="FriendMap">
+		<result property="id" column="好友ID"></result>
+		<result property="remark" column="好友备注"></result>
+	</resultMap>
+
+	<resultMap type="com.pmsystem.model.fr.FProject" id="FProjectMap">
+		<result property="project_id" column="项目ID"></result>
+		<result property="project_name" column="项目名称"></result>
+	</resultMap>
+
+	<resultMap type="com.pmsystem.model.fr.UserInformation" id="UserInformationMap">
+		<result property="user_id" column="员工ID"></result>
+		<result property="user_name" column="员工名称"></result>
+		<result property="user_phonenum" column="电话号码"></result>
+		<result property="user_email" column="Email"></result>
+		<result property="user_introduction" column="员工简介"></result>
+	</resultMap>
+
+
+	<select id="findAllFriend" resultMap="FriendMap">
+		select 好友.好友ID, 好友.好友备注
+		from 好友
+		where 员工ID = #{MyID}
+	</select>
+
+	<select id="modifyRemark">
+		update 好友
+		set 好友备注 = #{friend_remark}
+		where 员工ID = #{MyID} and 好友ID = #{friend_id}
+	</select>
+	
+	<select id="getProject"  resultMap="FProjectMap">
+		select 项目.项目ID, 项目.项目名称
+		from 项目,项目_员工
+		where 项目.项目ID = 项目_员工.项目ID and 项目_员工.员工ID = #{MyID}
+	</select>
+	
+	<insert id="inviteFriendToProject" >
+		insert into 项目_员工
+		values(#{project_id},#{friend_id},'null','null')
+	</insert>
+	
+	<select id="getUserInformation"  resultMap="UserInformationMap">
+		select 员工ID,员工名称,电话号码,Email,员工简介
+		from 员工
+		where 员工ID = #{friend_id}
+	</select>
+	
+	<resultMap type="com.pmsystem.model.fr.Staff" id="StaffMap">
+		<result property="id" column="员工ID"></result>
+		<result property="name" column="员工名称"></result>
+		<result property="phoneNum" column="电话号码"></result>
+		<result property="email" column="Email"></result>
+		<result property="intro" column="员工简介"></result>
+	</resultMap>
+
+	<resultMap type="Project" id="ProjectMap">
+		<id property="id" column="项目ID"></id>
+		<result property="name" column="项目名称"></result>
+		<result property="startDate" column="开始时间"></result>
+		<result property="finishDate" column="结束时间"></result>
+		<result property="status" column="项目状态"></result>
+		<result property="desc" column="项目简介"></result>
+	</resultMap>
+
+
+	<delete id="deleteFriend">
+		DELETE FROM 好友
+		WHERE 好友ID = #{FriendID}
+		AND 员工ID =
+		#{MyID}
+	</delete>
+
+	<select id="findStaff" resultMap="StaffMap">
+		select *
+		from 员工
+		where 员工ID like
+		#{StaffID}
+	</select>
+
+	<select id="addFriend">
+		insert into 好友 (员工ID,好友ID)
+		values(#{MyID},#{FriendID}); 
+	</select>
+
+	<select id="findProject" resultMap="ProjectMap">
+		select
+		项目.项目ID,项目名称,开始时间,结束时间,项目状态,项目简介
+		from 项目,项目_员工
+		where 项目_员工.员工ID =
+		#{FriendID}
+		and 项目.项目ID = 项目_员工.项目ID
+	</select>
+
+	<select id="applyForProject">
+		insert into 项目_员工 (项目ID,员工ID)
+		values(#{ProjectID},#{MyID}); 
+	</select>
+</mapper>
