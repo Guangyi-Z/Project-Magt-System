@@ -7,4 +7,12 @@
 		<property name="projectManageService" ref="projectManageService"/>
 	</bean>
 	
+	<bean id = "loginAction" class = "com.pmsystem.action.pj.LoginAction">
+		<property name="loginService" ref="loginService"/>
+	</bean>
+	
+	
+	<bean id = "registerAction" class = "com.pmsystem.action.pj.RegisterAction">
+		<property name="registerService" ref="registerService"/>
+	</bean>
 </beans>
