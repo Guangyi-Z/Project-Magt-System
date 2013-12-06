@@ -9,4 +9,10 @@
 	<bean id="taskManageService" class="com.pmsystem.service.impl.pj.TaskManageServiceImpl">
 		<property name="projectManageDAO" ref="projectManageDAO"/>
 	</bean>
+	<bean id="loginService" class="com.pmsystem.service.impl.pj.LoginServiceImpl">
+		<property name="logindao" ref="loginDAO"/>
+	</bean>
+	<bean id="registerService" class="com.pmsystem.service.impl.pj.RegisterServiceImpl">
+		<property name="registerDao" ref="registerDao"/>
+	</bean>
 </beans>
