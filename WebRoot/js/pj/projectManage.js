@@ -194,11 +194,10 @@ var proManageFun = function() {
 				}
 			});
 
-	var btn_freeze = new Ext.Button({
-				text : "冻结项目",
-				tooltip : "冻结项目",
-				id : "freezePro",
-				iconCls : 'icon_btn_freeze'
+	var btn_member = new Ext.Button({
+				text : "成员管理",
+				tooltip : "成员管理",
+				id : "membermagt",
 			});
 
 	var btn_add = new Ext.Button({
@@ -294,7 +293,7 @@ var proManageFun = function() {
 
 				frame : true,
 				
-				tbar : [btn_view, '-', btn_del, '-', btn_freeze, '->', btn_add,
+				tbar : [btn_view, '-', btn_del,'-', btn_member, '->', btn_add,
 						'-', btn_search],
 				bbar : new Ext.PagingToolbar({
 							id : "toolbar1",
