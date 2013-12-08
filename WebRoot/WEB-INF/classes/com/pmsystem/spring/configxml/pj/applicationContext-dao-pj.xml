@@ -17,4 +17,9 @@
 		<property name="mapperInterface" value="com.pmsystem.dao.pj.RegisterDAO"/>
 		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
 	</bean>
+	
+	<bean id="staffManageDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.pmsystem.dao.pj.StaffManageDAO"/>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean>
 </beans>

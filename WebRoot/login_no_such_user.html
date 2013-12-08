@@ -13,12 +13,20 @@
 	</head>
 
 	<body class="body_style">
-		<div class="pos_form2">
+		<div class="pos_login_psd_err">
 			<div>
 				<p>
 					<center style="font-size: 150%; font-family: Georgia; color: blue">
-						账户注册
+						欢迎登陆
 					</center>
+				</p>
+			</div>
+			<div>
+				<p>
+				<center>
+					<span><font size="2" color="red">您输入的用户名不存在！请重试！</font>
+					</span>
+				</center>
 				</p>
 			</div>
 			<script type="text/javascript">
@@ -42,23 +50,22 @@
 		}
 	}
 </script>
-			<form action="Register/register.action" onsubmit="return validate_form(this);">
+			<form action="Login/login.action"
+				onsubmit="return validate_form(this)">
 				<p>
-					用&nbsp;&nbsp;户&nbsp;&nbsp;名：
+					用户名：
 					<input type="text" name="userName" />
+					<span class="notice"></span>
 				</p>
 				<p>
-					员&nbsp;&nbsp;工&nbsp;&nbsp;号：
-					<input type="text" name="empID" />
-				</p>
-				<p>
-					密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：
+					密&nbsp;&nbsp;&nbsp;&nbsp;码：
 					<input type="password" name="password" />
 				</p>
-				<input type="submit" value="注册" style="height: 25px; width: 45px;" />
+				<input type="submit" value="登陆" style="height: 25px; width: 45px;" />
 			</form>
-			<input type="button" value="返回" style="height: 25px; width: 45px;"
-				onClick="window.location = 'login.html'">
+			<input type="button" value="注册" style="height: 25px; width: 45px;"
+				onClick="window.location = 'register.html'">
 		</div>
+
 	</body>
 </html>
