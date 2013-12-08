@@ -15,4 +15,7 @@
 	<bean id="registerService" class="com.pmsystem.service.impl.pj.RegisterServiceImpl">
 		<property name="registerDao" ref="registerDao"/>
 	</bean>
+	<bean id="staffManageService" class="com.pmsystem.service.impl.pj.StaffManageServiceImpl">
+		<property name="staffManageDAO" ref="staffManageDAO"/>
+	</bean>
 </beans>

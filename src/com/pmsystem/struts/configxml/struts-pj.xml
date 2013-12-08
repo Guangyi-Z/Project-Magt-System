@@ -25,8 +25,9 @@
 		<action name="*" class="com.pmsystem.action.pj.LoginAction"
 			method="{1}">
 			<result name="success" type="redirect">/index.html</result>
-			<result name="noSuchUser" type="redirect">/login_psd_err.html</result>
+			<result name="noSuchUser" type="redirect">/login_no_such_user.html</result>
 			<result name="psdError" type="redirect">/login_psd_err.html</result>
+			<result name="admin" type="redirect">/admin.html</result>
 		</action>
 	</package>
 	<package name="Register" namespace="/Register" extends="json-default">
@@ -36,6 +37,15 @@
 			<result name="userExist" type="redirect">/register_check_userName.html</result>
 			<result name="empIDNoExist" type="redirect">/register_check_id.html</result>
 			<result name="empIDIsUsed" type="redirect">/register_check_empID.html</result>
+		</action>
+	</package>
+	<package name="StaffManage" namespace="/StaffManage" extends="json-default">
+		<action name="*" class="com.pmsystem.action.pj.StaffManageAction"
+			method="{1}">
+			<result type="json">
+				<param name="root">jsonMap</param>
+			</result>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
 		</action>
 	</package>
 </struts>

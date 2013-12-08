@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pmsystem.dao.pj.StaffManageDAO">
+	<insert parameterType="com.pmsystem.model.fr.Staff" id="addStaff">
+	<![CDATA[
+		INSERT
+		INTO 员工 ( 员工ID,员工名称 ) VALUES (
+		#{id},
+		#{name})
+		]]>
+	</insert>
+	
+	<resultMap type="com.pmsystem.model.fr.Staff" id="StaffMap">
+		<id property="id" column = "员工ID"></id>
+		<result property = "name" column = "员工名称"></result>
+		<result property = "phoneNum" column = "电话号码"></result>
+		<result property = "email" column = "Email"></result>
+		<result property = "intro" column = "员工简介"></result>
+	</resultMap>
+	
+	<select id="getAllStaffCount" parameterType="map" resultMap="StaffMap">
+	<![CDATA[
+		SELECT TOP ${limit} * FROM 员工
+		WHERE 员工ID NOT IN(
+			SELECT TOP ${start} 员工ID
+			FROM 员工
+			ORDER BY 员工ID)
+		ORDER BY 员工ID
+		]]>
+	</select>
+	
+	<select id="getCount" resultType="int">
+		SELECT count(*) FROM 员工
+	</select>
+	
+	<delete id="deleteStaff">
+		DELETE 员工
+		WHERE 员工ID = #{id}
+	</delete>
+</mapper>

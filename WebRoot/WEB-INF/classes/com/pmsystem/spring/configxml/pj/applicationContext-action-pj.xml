@@ -18,4 +18,8 @@
 	<bean id = "registerAction" class = "com.pmsystem.action.pj.RegisterAction">
 		<property name="registerService" ref="registerService"/>
 	</bean>
+	
+	<bean id = "staffManageAction" class = "com.pmsystem.action.pj.StaffManageAction">
+		<property name="staffManageService" ref="staffManageService"/>
+	</bean>
 </beans>
