@@ -9,4 +9,20 @@
 			<interceptor-ref name="defaultStack"></interceptor-ref>
 		</action>
 	</package>
+	<package name="MemberMessage" namespace="/MemberMessage" extends="json-default">
+		<action name="*" class="com.pmsystem.action.pj.MemberMessageAction" method="{1}">
+			<result type="json">
+				<param name="root">jsonMap</param>
+			</result>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+		</action>
+	</package>
+	<package name="ProjectMember" namespace="/ProjectMember" extends="json-default">
+		<action name="*" class="com.pmsystem.action.pj.ProjectMemberAction" method="{1}">
+			<result type="json">
+				<param name="root">jsonMap</param>
+			</result>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+		</action>
+	</package>
 </struts>
