@@ -93,7 +93,7 @@ public class ProjectManageAction extends ActionSupport {
 	
 	public String storeProjectId(){
 		jsonMap.clear();
-		System.out.println("将要查看的项目ID："+id);
+		System.out.println("id:"+id);
 		TaskManageAction.setProId(id);
 		//TaskManageAction.proId= Integer.parseInt(id);	// set the project id of Task Action
 		jsonMap.put("success", true);

@@ -2,6 +2,7 @@ package com.pmsystem.service.fr;
 
 import java.util.List;
 
+import com.pmsystem.model.fr.Account;
 import com.pmsystem.model.fr.FProject;
 import com.pmsystem.model.fr.Friend;
 import com.pmsystem.model.fr.UserInformation;
@@ -21,4 +22,6 @@ public interface FriendManageService {
 	public String addFriend(String FriendID,String MyID);
 	public List<Project> findProject(String FriendID);
 	public String applyForProject(String MyID,String ProjectID);
+	public List<Account> checkOldPassword(String account,String password);
+	public String modifyPassword(String account,String newPassword);
 }

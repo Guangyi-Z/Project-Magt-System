@@ -22,9 +22,9 @@ public class ProjectManageServiceImpl implements ProjectManageService {
 
 		Date startDate = new Date(project.getStartDate().toString());
 		if (startDate.after(today)) {
-			project.setStatus("æ‰§è¡Œä¸­");
+			project.setStatus("Ö´ĞĞÖĞ");
 		} else {
-			project.setStatus("æœªå¯åŠ¨");
+			project.setStatus("Î´Æô¶¯");
 		}
 		try {
 			projectManageDAO.addProject(project);

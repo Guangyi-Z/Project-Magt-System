@@ -99,4 +99,25 @@
 		insert into 项目_员工 (项目ID,员工ID)
 		values(#{ProjectID},#{MyID}); 
 	</select>
+	
+	
+	<resultMap type="com.pmsystem.model.fr.Account" id="passwordMap">
+	    <result property="account_id" column="用户名"></result>
+		<result property="account_password" column="密码"></result>
+	</resultMap>
+	
+	<select id="checkOldPassword" resultMap="passwordMap">
+        select 用户名,密码
+        from 用户
+        where 用户名 = #{account}
+	</select>
+	
+	
+	<select id="modifyPassword">
+		update 用户
+		set 密码 = #{newPassword}
+		where 用户名 = #{account}
+	</select>
+	
+	
 </mapper>

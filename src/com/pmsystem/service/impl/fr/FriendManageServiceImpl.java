@@ -3,6 +3,7 @@ package com.pmsystem.service.impl.fr;
 import java.util.List;
 
 import com.pmsystem.dao.fr.FriendManageDAO;
+import com.pmsystem.model.fr.Account;
 import com.pmsystem.model.fr.FProject;
 import com.pmsystem.model.fr.Friend;
 
@@ -91,4 +92,20 @@ public class FriendManageServiceImpl implements FriendManageService {
 
 	}
 
+	public List<Account> checkOldPassword(String account, String password) {
+		// TODO Auto-generated method stub
+		
+		return friendManageDAO.checkOldPassword(account, password);
+	}
+
+	public String modifyPassword(String account, String newPassword) {
+		// TODO Auto-generated method stub
+		
+		friendManageDAO.modifyPassword(account, newPassword);
+		
+		return null;
+	}
+
+	
+	
 }

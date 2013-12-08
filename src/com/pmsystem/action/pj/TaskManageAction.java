@@ -10,7 +10,6 @@ public class TaskManageAction extends ActionSupport{
 	
 	TaskManageService taskManageService;
 	
-	// 下列变量用作项目任务管理
 	public static String proId;
 	String prj;
 	String result;
@@ -64,7 +63,7 @@ public class TaskManageAction extends ActionSupport{
 		prj= taskManageService.findTasksOfProject(proId);
 		
 		System.out.println("data from db: " + prj );
-		// 转换json数据到java类
+		// 
 		JSONObject jsonObject = JSONObject.fromObject(prj); 
 		project = (ProjectOfGantt)JSONObject.toBean(jsonObject, ProjectOfGantt.class); 
 		
@@ -72,8 +71,8 @@ public class TaskManageAction extends ActionSupport{
 	}
 	
 	public String saveTasks(){
-		System.out.println("将要储存任务的项目ID：" + proId);
-		System.out.println("将要储存的任务：" + prj);
+		System.out.println("project id:" + proId);
+		System.out.println("project json" + prj);
 		try {
 			JSONObject jsonObject = JSONObject.fromObject(prj); 
 			project = (ProjectOfGantt)JSONObject.toBean(jsonObject, ProjectOfGantt.class); 

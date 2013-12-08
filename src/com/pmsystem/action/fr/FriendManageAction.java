@@ -1,11 +1,17 @@
 package com.pmsystem.action.fr;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
+
 import com.opensymphony.xwork2.ActionSupport;
+import com.pmsystem.model.fr.Account;
 import com.pmsystem.model.fr.FProject;
 import com.pmsystem.model.fr.Friend;
 
@@ -25,6 +31,73 @@ public class FriendManageAction extends ActionSupport{
 	private String StaffID;
 	private String FriendID;
 	private String ProjectID;
+	private String AccountID;
+	private String newAccountPassword;
+	private String oldAccountPassword;
+
+	private boolean success;
+	
+	public String modifyPassword()
+	{
+		friendManageService.modifyPassword(AccountID,newAccountPassword);
+		
+		return SUCCESS;
+	}
+	
+	public String checkOldPassword() throws Exception{
+
+		jsonMap.clear();
+		List<Account> temp = friendManageService.checkOldPassword(AccountID,oldAccountPassword);
+		//HttpServletResponse response =  ServletActionContext.getResponse();
+		if(temp.get(0).getAccount_password().equals(oldAccountPassword))
+		{
+			jsonMap.put("success", true);
+			System.out.println("yes");
+			//throw new Exception("this is a test!");
+			//ServletActionContext.getResponse().setContentType("text/json; charset=utf-8");
+			//ServletActionContext.getResponse().getWriter().write("yes");
+		}
+		else
+		{
+			jsonMap.put("success", false);
+			System.out.println("no");
+			//response.getWriter().print("no");
+		}
+		
+		return SUCCESS;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
+
+	public String getOldAccountPassword() {
+		return oldAccountPassword;
+	}
+
+	public void setOldAccountPassword(String oldAccountPassword) {
+		this.oldAccountPassword = oldAccountPassword;
+	}
+
+	public String getNewAccountPassword() {
+		return newAccountPassword;
+	}
+
+	public void setNewAccountPassword(String newAccountPassword) {
+		this.newAccountPassword = newAccountPassword;
+	}
+
+	public String getAccountID() {
+		return AccountID;
+	}
+
+	public void setAccountID(String accountID) {
+		AccountID = accountID;
+	}
 	
 	public String[] getFproject_array() {
 		return fproject_array;

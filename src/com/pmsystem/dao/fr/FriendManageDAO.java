@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Param;
 import com.pmsystem.model.fr.Friend;
 import com.pmsystem.model.fr.Staff;
 import com.pmsystem.model.pj.Project;
+import com.pmsystem.model.fr.Account;
 
 public interface FriendManageDAO {
 	public List<Friend> findAllFriend(String MyID);
@@ -37,4 +38,11 @@ public interface FriendManageDAO {
 
 	public int applyForProject(@Param(value = "MyID") String MyID,
 			@Param(value = "ProjectID") String ProjectID);
+	
+	public List<Account> checkOldPassword(@Param(value = "account") String account, 
+			@Param(value = "password") String password);
+	
+	public String modifyPassword(@Param(value = "account") String account, 
+			@Param(value = "newPassword") String newPassword);
+	
 }

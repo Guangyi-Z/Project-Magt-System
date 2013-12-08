@@ -21,6 +21,8 @@ Ext.onReady(function() {
 				}, '-', {
 					text : '我的账号',
 					handler : function() {
+						_center.removeAll();
+						_center.add(MyAccount());						
 					}
 				}/*, '-', {
 					text : '测试按钮',
