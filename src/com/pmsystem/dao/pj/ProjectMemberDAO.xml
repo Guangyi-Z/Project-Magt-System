@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pmsystem.dao.pj.ProjectMemberDAO">
+	<resultMap type = "ProjectMember" id = "ProjectMemberMap">
+		<id property = "projectID" column = "项目ID"></id>
+		<id property = "memberID" column = "员工ID"></id>
+		<result property = "memberLimit" column = "员工权限"></result>
+		<result property = "memberRole" column = "项目角色"></result>
+		
+		<result property = "memberName" column = "员工名称"></result>
+	</resultMap>
+	
+	<insert id="addMember" parameterType = "ProjectMember">
+		INSERT INTO 项目_员工
+		VALUES(
+		#{projectID},
+		#{memberID},
+		#{memberLimit},
+		#{memberRole}
+		)
+	</insert>
+	<delete id="deleteMember" parameterType = "map">
+		DELETE FROM 项目_员工
+		WHERE 项目ID = #{proID} AND 员工ID = #{memID}
+	</delete>
+	<update id="updateMember" parameterType = "ProjectMember">
+		UPDATE 项目_员工 SET
+		员工权限 = #{memberLimit},
+		项目角色 = #{memberRole}
+		WHERE 项目ID = #{projectID} AND 员工ID = #{memberID}
+	</update>
+	<select id="getAllMembers" parameterType = "map" resultMap = "ProjectMemberMap">
+		<!-- SELECT TOP ${limit} * FROM 项目_员工, 员工
+		WHERE 项目_员工.员工ID NOT IN(
+			SELECT TOP ${start} 员工ID
+			FROM 项目_员工
+			WHERE 项目ID = #{projectID}
+			ORDER BY 员工ID
+			
+			)
+		ORDER BY 项目_员工.员工ID -->
+		SELECT* FROM 项目_员工, 员工
+		WHERE 项目ID = #{projectID} AND 项目_员工.员工ID = 员工.员工ID
+	</select>
+	<select id="getCount" resultType = "int">
+		SELECT count(*) FROM 项目_员工
+	</select>
+</mapper>

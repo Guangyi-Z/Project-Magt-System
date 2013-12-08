@@ -67,3 +67,6 @@
 	left: 20px;
 	bottom: 180px
 }
+.icon_btn_delete{background: url(../resources/images/cross.png) left top no-repeat!important;}
+.icon_btn_add{background: url(../resources/images/add.png) left top no-repeat!important;}
+.icon_btn_edit{background: url(../resources/images/edit.png) left top no-repeat!important;}

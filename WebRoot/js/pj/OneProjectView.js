@@ -3,7 +3,12 @@ var OneProjectViewFun = function(proID) {
 	var btn_mem = new Ext.Button({
 		text : "管理成员",
 		tooltip : "管理成员",
-		id : "manaMem"
+		id : "manaMem",
+		handler : function() {
+			_center.removeAll();
+			_center.add(mumberManageFun());
+			//_center.add(projectStaffManageFn());
+		}
 	});
 
 	var btn_task = new Ext.Button({

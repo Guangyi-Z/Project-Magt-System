@@ -22,4 +22,10 @@
 	<bean id = "staffManageAction" class = "com.pmsystem.action.pj.StaffManageAction">
 		<property name="staffManageService" ref="staffManageService"/>
 	</bean>
+	<bean id = "memberMessageAction" class = "com.pmsystem.action.pj.MemberMessageAction">
+		<property name="memberMessageService" ref="memberMessageService"/>
+	</bean>
+	<bean id = "ProjectMemberAction" class = "com.pmsystem.action.pj.ProjectMemberAction">
+		<property name="projectMemberServiece" ref="projectMemberServiece"/>
+	</bean>
 </beans>

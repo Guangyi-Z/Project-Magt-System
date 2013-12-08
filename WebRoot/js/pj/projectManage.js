@@ -198,6 +198,14 @@ var proManageFun = function() {
 				text : "成员管理",
 				tooltip : "成员管理",
 				id : "membermagt",
+				handler : function() {
+					var _selectModel = _grid.getSelectionModel();
+					if(_selectModel.hasSelection()) {
+						var ID = _selectModel.getLastSelected().get("id");	//选中项目ID
+						_center.removeAll();
+						_center.add(mumberManageFun(ID));
+					}
+				}
 			});
 
 	var btn_add = new Ext.Button({

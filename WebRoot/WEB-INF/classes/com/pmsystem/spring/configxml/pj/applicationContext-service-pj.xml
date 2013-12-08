@@ -18,4 +18,10 @@
 	<bean id="staffManageService" class="com.pmsystem.service.impl.pj.StaffManageServiceImpl">
 		<property name="staffManageDAO" ref="staffManageDAO"/>
 	</bean>
+	<bean id="memberMessageService" class="com.pmsystem.service.impl.pj.MemberMessageServieceImpl">
+		<property name="memberMessageDAO" ref="memberMessageDAO"/>
+	</bean>
+	<bean id="projectMemberServiece" class="com.pmsystem.service.impl.pj.ProjectMemberServieceImpl">
+		<property name="projectMemberDAO" ref="projectMemberDAO"/>
+	</bean>
 </beans>

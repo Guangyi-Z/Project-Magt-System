@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pmsystem.dao.pj.MemberMessageDAO">
+	<resultMap type="MemberMessage" id="MemberMessageMap">
+		<id property = "memberID" column = "员工ID"></id>
+		<result property = "memberName" column = "员工名称"></result>
+		<result property = "memberEmail" column = "Email"></result>
+		<result property = "memberPhone" column = "电话号码"></result>
+		<result property = "memberIntroduction" column = "员工简介"></result>
+		
+	</resultMap>
+	
+	<select id = "getMemberMsgByID" parameterType = "String" resultMap = "MemberMessageMap">
+		SELECT * FROM 员工
+		WHERE 员工ID = #{ID}
+	</select>
+</mapper>

@@ -6,12 +6,16 @@
 		<!-- common_basic_data -->
 		<typeAlias type="com.pmsystem.model.pj.Project" alias="Project" />
 		<typeAlias type="com.pmsystem.model.fr.Staff" alias="Staff" />
+		<typeAlias type="com.pmsystem.model.pj.MemberMessage" alias="MemberMessage"/>
+		<typeAlias type="com.pmsystem.model.pj.ProjectMember" alias="ProjectMember"/>
 	</typeAliases>
 
 	<mappers>
 		<!--common_basic_data  -->
 		<mapper resource="com/pmsystem/dao/pj/ProjectManageDAO.xml" />
 		<mapper resource="com/pmsystem/dao/pj/StaffManageDAO.xml" />
+		<mapper resource="com/pmsystem/dao/pj/MemberMessageDAO.xml"/>
+		<mapper resource="com/pmsystem/dao/pj/ProjectMemberDAO.xml"/>
 	</mappers>
 	
 	
