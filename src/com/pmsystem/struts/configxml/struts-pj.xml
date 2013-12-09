@@ -21,10 +21,10 @@
 		</action>
 	</package>
 	
-	<package name="Login" namespace="/Login" extends="json-default">
+	<package name="Login" extends="json-default">
 		<action name="*" class="com.pmsystem.action.pj.LoginAction"
 			method="{1}">
-			<result name="success" type="redirect">/index.html</result>
+			<result name="success" >index.jsp</result>
 			<result name="noSuchUser" type="redirect">/login_no_such_user.html</result>
 			<result name="psdError" type="redirect">/login_psd_err.html</result>
 			<result name="admin" type="redirect">/admin.html</result>

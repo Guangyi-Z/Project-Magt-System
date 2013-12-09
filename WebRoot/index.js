@@ -1,5 +1,4 @@
 var _center;
-
 Ext.onReady(function() {
 
 	var _top = new Ext.Toolbar({

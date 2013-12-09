@@ -1,8 +1,6 @@
 var friendManageFunc = function() {
 
 	var pageSize = 10;
-	//var my_account_id; // 传参数进来
-    var MyID = 'testID';
 	
 	/*
 	 * ========= aux function in Handler ===========
@@ -245,7 +243,7 @@ var friendManageFunc = function() {
 											url : "Friend/addFriend.action",
 											params : {
 												"FriendID" : FriendID,
-												"MyID" : "testID"
+												"MyID" : MyID
 											},
 											method : 'POST',
 											success : function() {
@@ -393,7 +391,7 @@ var friendManageFunc = function() {
 								Ext.Ajax.request({
 											url : "Friend/applyForProject.action",
 											params : {
-												"MyID":'testID',
+												"MyID":MyID,
 												"ProjectID" : ProjectID
 											},
 											method : 'POST',
@@ -690,7 +688,7 @@ var friendManageFunc = function() {
 										url : "Friend/deleteFriend.action",
 										params : {
 											"FriendID" : ID,
-											"MyID" : "testID"
+											"MyID" : MyID
 										},
 										method : 'POST',
 										success : function() {

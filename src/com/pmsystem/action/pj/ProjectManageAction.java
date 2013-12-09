@@ -9,6 +9,7 @@ import net.sf.json.JSONObject;
 import org.apache.struts2.components.Else;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.pmsystem.model.fr.Friend;
 import com.pmsystem.model.pj.Project;
 import com.pmsystem.service.pj.ProjectManageService;
 
@@ -19,87 +20,107 @@ public class ProjectManageAction extends ActionSupport {
 	private boolean success;
 
 	private String id;
+	private String ProjectID;
+	private String MyID;
 	private List<Project> projects;
 	private int totalCount;
 	private int start;
 	private int limit;
-	
+
 	// 下列变量用作项目任务管理
 	String prj;
 	String result;
 
-	
-	public ProjectManageAction(){
+	public ProjectManageAction() {
 		jsonMap = new HashMap<String, Object>();
 	}
-	
+
 	public String addProject() {
 		System.out.println("name a: " + project.getName());
 		System.out.println("desc a: " + project.getDesc());
 		System.out.println("startDate a: " + project.getStartDate());
 		System.out.println("finishDate a: " + project.getFinishDate());
-		if(projectManageService == null){
+		if (projectManageService == null) {
 			System.out.println("projectManageService == null");
 		}
 		projectManageService.addProject(project);
 		jsonMap.put("success", true);
 		return SUCCESS;
 	}
-	
+
 	public String deleteProject() {
 		jsonMap.clear();
-		if(projectManageService.deleteProject(id) == null){
-			
+		if (projectManageService.deleteProject(id) == null) {
+
 		}
 		jsonMap.put("success", true);
 		return SUCCESS;
 	}
-	
-	public String updateProject(){
+
+	public String updateProject() {
 		jsonMap.clear();
-		if(projectManageService.updateProject(project) == null){
-			
+		if (projectManageService.updateProject(project) == null) {
+
 		}
-			
+
 		jsonMap.put("success", true);
 		return SUCCESS;
 	}
-	
-	public String findAllProject(){
+
+	public String findAllProject() {
 		jsonMap.clear();
-		if(projectManageService.getAllProjects(limit, start) != null){
+		if (projectManageService.getAllProjects(limit, start) != null) {
 			projects = projectManageService.getAllProjects(limit, start);
 			totalCount = projectManageService.getCount();
 			jsonMap.put("projects", projects);
 			jsonMap.put("totalCount", totalCount);
 			jsonMap.put("success", true);
-		}
-		else
+		} else
 			jsonMap.put("success", false);
 		return SUCCESS;
 	}
-	
-	public String findProjectByID(){
+
+	public String findProjectByID() {
 		jsonMap.clear();
 		String ID = project.getId();
 		project = projectManageService.getProjectByID(ID);
-		if(project != null){
+		if (project != null) {
 			jsonMap.put("success", true);
-		}
-		else
+		} else
 			jsonMap.put("success", false);
 		return SUCCESS;
 	}
-	
-	public String storeProjectId(){
+
+	public String storeProjectId() {
 		jsonMap.clear();
-		System.out.println("id:"+id);
+		System.out.println("id:" + id);
 		TaskManageAction.setProId(id);
-		//TaskManageAction.proId= Integer.parseInt(id);	// set the project id of Task Action
+		// TaskManageAction.proId= Integer.parseInt(id); // set the project id
+		// of Task Action
 		jsonMap.put("success", true);
 		return SUCCESS;
 	}
-	
+
+	public String searchProject() {
+		jsonMap.clear();
+		List<Project> projects = projectManageService.searchProject(ProjectID);
+		jsonMap.put("projects", projects);
+		jsonMap.put("totalCount", projects.size());
+		return SUCCESS;
+	}
+
+	public String applyForProject() {
+		jsonMap.clear();
+		System.out.println("::::::::::::"+MyID+ProjectID);
+		try{
+		projectManageService.applyForProject(MyID, ProjectID);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return SUCCESS;
+	}
+
 	public Project getProject() {
 		return project;
 	}
@@ -128,7 +149,8 @@ public class ProjectManageAction extends ActionSupport {
 		return projectManageService;
 	}
 
-	public void setProjectManageService(ProjectManageService projectManageService) {
+	public void setProjectManageService(
+			ProjectManageService projectManageService) {
 		this.projectManageService = projectManageService;
 	}
 
@@ -187,5 +209,21 @@ public class ProjectManageAction extends ActionSupport {
 	public void setResult(String result) {
 		this.result = result;
 	}
-	
+
+	public String getProjectID() {
+		return ProjectID;
+	}
+
+	public void setProjectID(String projectID) {
+		ProjectID = projectID;
+	}
+
+	public String getMyID() {
+		return MyID;
+	}
+
+	public void setMyID(String myID) {
+		MyID = myID;
+	}
+
 }

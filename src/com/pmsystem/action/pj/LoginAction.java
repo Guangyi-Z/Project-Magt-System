@@ -1,24 +1,32 @@
 package com.pmsystem.action.pj;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.interceptor.ServletResponseAware;
+
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.pmsystem.service.pj.LoginService;
 
-public class LoginAction extends ActionSupport {
+public class LoginAction extends ActionSupport implements ServletResponseAware {
 	private LoginService loginService;
 	private String userName = null;
 	private String password = null;
+	private HttpServletResponse response;
 
 	public String login() {
-		System.out.println("Action:" + userName);
+		
 		if (userName.equals("admin")) {
 			if (password.equals("admin"))
 				return "admin";
-			else 
+			else
 				return "psdError";
 		}
 		if (userName.equals(loginService.searchUser(userName))) {
 			if (password.equals(loginService.login(userName))) {
-				System.out.println("success");
+				ActionContext ctx = ActionContext.getContext();
+				ctx.getSession().put("userID", userName);
 				return SUCCESS;
 			} else {
 				System.out.println("password_error");
@@ -52,6 +60,11 @@ public class LoginAction extends ActionSupport {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public void setServletResponse(HttpServletResponse arg0) {
+		// TODO Auto-generated method stub
+		this.response = response;
 	}
 
 }

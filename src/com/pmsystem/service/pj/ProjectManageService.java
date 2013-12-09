@@ -16,4 +16,8 @@ public interface ProjectManageService {
 	public Project getProjectByID(String id);
 	
 	public int getCount();
+	
+	public List<Project> searchProject(String ProjectID);
+	
+	public String applyForProject(String MyID,String ProjectID);
 }

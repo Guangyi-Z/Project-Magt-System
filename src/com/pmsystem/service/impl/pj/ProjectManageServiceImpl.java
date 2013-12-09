@@ -32,7 +32,7 @@ public class ProjectManageServiceImpl implements ProjectManageService {
 		}
 		return null;
 	}
-	
+
 	public String deleteProject(String id) {
 		try {
 			projectManageDAO.deleteProject(id);
@@ -41,16 +41,16 @@ public class ProjectManageServiceImpl implements ProjectManageService {
 		}
 		return null;
 	}
-	
+
 	public String updateProject(Project project) {
 		try {
 			projectManageDAO.updateProject(project);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	public List<Project> getAllProjects(int limit, int start) {
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("limit", limit);
@@ -58,31 +58,32 @@ public class ProjectManageServiceImpl implements ProjectManageService {
 		List<Project> list = null;
 		try {
 			list = projectManageDAO.getAllProjectCount(map);
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return list;
 	}
 
-	public int getCount(){
+	public int getCount() {
 		int count = -1;
 		try {
-			count  = projectManageDAO.getCount();
-		} catch(Exception e){
+			count = projectManageDAO.getCount();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return count;
 	}
-	
+
 	public Project getProjectByID(String id) {
 		Project project = new Project();
-		try{
+		try {
 			project = projectManageDAO.getProjectByID(id);
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return project;
 	}
+
 	public ProjectManageDAO getProjectManageDAO() {
 		return projectManageDAO;
 	}
@@ -90,6 +91,13 @@ public class ProjectManageServiceImpl implements ProjectManageService {
 	public void setProjectManageDAO(ProjectManageDAO projectManageDAO) {
 		this.projectManageDAO = projectManageDAO;
 	}
-	
-	
+
+	public List<Project> searchProject(String ProjectID) {
+		return projectManageDAO.searchProject('%' + ProjectID + '%');
+	}
+	public String applyForProject(String MyID,String ProjectID){
+		projectManageDAO.applyForProject(MyID, ProjectID);
+		return null;
+	}
+
 }

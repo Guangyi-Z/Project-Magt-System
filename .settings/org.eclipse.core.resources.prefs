@@ -1,7 +1,11 @@
-#Sat Dec 07 14:57:51 CST 2013
+#Mon Dec 09 08:48:34 CST 2013
 eclipse.preferences.version=1
 encoding//WebRoot/index.js=UTF-8
 encoding//WebRoot/js/MyAccount.js=UTF-8
 encoding//WebRoot/js/fr/friendManage.js=UTF-8
 encoding//WebRoot/js/pj/projectManage.js=UTF-8
 encoding//WebRoot/js/pj/taskManage.js=UTF-8
+encoding//src/com/pmsystem/action/pj/ProjectManageAction.java=UTF-8
+encoding//src/com/pmsystem/action/pj/ProjectMemberAction.java=UTF-8
+encoding//src/com/pmsystem/test/ProjectMemberServiceTest.java=UTF-8
+encoding//src/com/pmsystem/test/ProjectServiceTest.java=UTF-8

@@ -91,7 +91,7 @@ var proManageFun = function() {
 								Ext.example.msg("提交成功", "提交订单类型信息成功……",
 										"msg-box-success");// 相应的提示信息
 								Ext.getCmp("addWin").close(); // 根据id获取到表单的窗口，然后将其关闭
-								 _grid.getStore().reload(); //
+								_grid.getStore().reload(); //
 								// 提交成功后，需要刷新GridPanel数据，
 
 							},
@@ -119,70 +119,223 @@ var proManageFun = function() {
 		}).show();
 
 	}
-	
+
 	// 删除操作
-	var deleteFn = function(){
+	var deleteFn = function() {
 		var _selectModel = _grid.getSelectionModel();
-		if(_selectModel.hasSelection()) {
+		if (_selectModel.hasSelection()) {
 			var ID = _selectModel.getLastSelected().get("id");
-		
-			Ext.MessageBox.confirm("删除项目","你将永久删除此项目，不可恢复！", function(btnId){
-					if(btnId == "yes"){
-						Ext.Ajax.request({
-							url : "Project/deleteProject.action",
-							params : {
-								"id" : ID
-							},
-							method : 'POST',
-							success : function(){
-									Ext.example.msg("删除项目", "删除成功", "msg-box-success");
-									 _grid.getStore().reload(); //
-							},
-							failure : function() {
-								Ext.example.msg("警告", "删除项目失败", "msg-box-error");
-							}
-						});
-					}
-			});
-		}
-		else {
+
+			Ext.MessageBox.confirm("删除项目", "你将永久删除此项目，不可恢复！", function(btnId) {
+						if (btnId == "yes") {
+							Ext.Ajax.request({
+										url : "Project/deleteProject.action",
+										params : {
+											"id" : ID
+										},
+										method : 'POST',
+										success : function() {
+											Ext.example.msg("删除项目", "删除成功",
+													"msg-box-success");
+											_grid.getStore().reload(); //
+										},
+										failure : function() {
+											Ext.example.msg("警告", "删除项目失败",
+													"msg-box-error");
+										}
+									});
+						}
+					});
+		} else {
 			Ext.example.msg("警告", "请选择要删除的项目", "msg-box-error");
 		}
 	}
-	var btn_view = new Ext.Button({
-				text : "查看项目",
-				tooltip : "查看项目",
-				id : "viewPro",
-				iconCls : 'icon_btn_view',
-				handler : function() {
-					var _selectModel = _grid.getSelectionModel();
-					if(_selectModel.hasSelection()) {
-						var ID = _selectModel.getLastSelected().get("id");	//选中项目ID
-						_center.removeAll();
-						// 先存储选中项目ID到Action
-						Ext.Ajax.request({
-							url : "Project/storeProjectId.action",
-							params : {
-								"id" : ID
-							},
-							method : 'POST',
-							success : function(){
-								var p = Ext.create('Ext.panel.Panel', {
-									title:'Gan!!!',
-									region : 'center',
-									html:"<iframe width='100%' height='100%' src='gan/gantt.html'></iframe>"
-								});
-								_center.add(p);
-							},
-							failure : function() {
-								Ext.example.msg("警告", "上传项目ID失败", "msg-box-error");
-							}
-						});
-					} else {
-						Ext.example.msg("警告", "请选择要查看的项目", "msg-box-error");
+
+	var searchFn = function() {
+		Ext.define('SearchProject', {
+					extend : 'Ext.data.Model',
+					fields : [{
+								name : "id",
+								type : "string"
+							}, {
+								name : "name",
+								type : "string"
+							}, {
+								name : "startDate",
+								type : "Date"
+							}, {
+								name : "finishDate",
+								type : "Date"
+							}, {
+								name : "status",
+								type : "string"
+							}, {
+								name : "desc",
+								type : "string"
+							}]
+				});
+
+		var store_Project = Ext.create('Ext.data.Store', {
+					model : 'SearchProject',
+					storeId : 'searchStore',
+					proxy : {
+						type : 'ajax',
+						url : 'Project/searchProject.action',
+						method : 'POST',
+						reader : {
+							type : 'json',
+							root : 'projects',
+							totalProperty : 'totalCount',
+							idProperty : 'id'
+						}
 					}
-				}
-			});
+				});
+		store_Project.load({
+					params : {
+						'ProjectID' : ""
+					}
+
+				});
+
+		var sm_Project = new Ext.selection.RowModel({
+					mode : 'SINGLE'
+				});
+		var grid_Project = Ext.create('Ext.grid.Panel', {
+					store : Ext.data.StoreManager.lookup('searchStore'),
+					selModel : sm_Project,
+					columnLines : true,
+					region : 'center',
+					columns : [{
+								text : '项目编号',
+								dataIndex : 'id'
+							}, {
+								text : '项目名称',
+								dataIndex : 'name'
+							}, {
+								text : '开始时间',
+								dataIndex : 'startDate'
+							}, {
+								text : '结束时间',
+								dataIndex : 'finishDate'
+							}, {
+								text : '状态',
+								dataIndex : 'status'
+							}],
+
+					frame : true,
+
+					tbar : [{
+						xtype : 'button',
+						iconCls : 'icon_btn_view',
+						text : "申请加入项目",
+						handler : function() {
+							var selectedModel = grid_Project
+									.getSelectionModel();
+							if (selectedModel.hasSelection()) {
+								var ProjectID = selectedModel.getLastSelected()
+										.get("id");
+								Ext.Ajax.request({
+											url : "Project/applyForProject.action",
+											params : {
+												"ProjectID" : ProjectID,
+												"MyID" : MyID
+											},
+											method : 'POST',
+											success : function() {
+
+												Ext.example.msg("申请加入项目",
+														"申请成功",
+														"msg-box-success");
+												grid.getStore().reload();
+
+											},
+											failure : function() {
+												Ext.example.msg("警告", "添加好友失败",
+														"msg-box-error");
+											}
+										});
+							} else {
+								Ext.example.msg("警告", "请选择要申请加入的项目",
+										"msg-box-error");
+							}
+						}
+					}, '->', {
+						id : 'projectID',
+						xtype : 'textfield',
+						emptyText : '请输入项目ID',
+						allowBlank : false
+					}, {
+						xtype : 'button',
+						iconCls : 'icon_btn_view',
+						text : "查找",
+						handler : function() {
+
+							// / 读取用户的输入
+							var ProjectID = Ext.getCmp("projectID").getValue();
+
+							store_Project.load({
+										params : {
+											'ProjectID' : ProjectID
+										}
+
+									});
+
+						}
+
+					}]
+				});
+		var searchProjectWin = new Ext.Window({
+					id : "finduserWindow",
+					title : "查找项目",
+					width : 545,
+					height : 250,
+					resizable : false,
+					modal : true,
+					closable : true,
+					closeAction : 'destroy',
+					layout : 'border',
+					animateTarget : 'searchType',
+					textfieldAlign : 'left',
+					labelAlign : 'right',
+					items : [grid_Project]
+				}).show();
+
+	}
+
+	var btn_view = new Ext.Button({
+		text : "查看项目",
+		tooltip : "查看项目",
+		id : "viewPro",
+		iconCls : 'icon_btn_view',
+		handler : function() {
+			var _selectModel = _grid.getSelectionModel();
+			if (_selectModel.hasSelection()) {
+				var ID = _selectModel.getLastSelected().get("id"); // 选中项目ID
+				_center.removeAll();
+				// 先存储选中项目ID到Action
+				Ext.Ajax.request({
+					url : "Project/storeProjectId.action",
+					params : {
+						"id" : ID
+					},
+					method : 'POST',
+					success : function() {
+						var p = Ext.create('Ext.panel.Panel', {
+							title : 'Gan!!!',
+							region : 'center',
+							html : "<iframe width='100%' height='100%' src='gan/gantt.html'></iframe>"
+						});
+						_center.add(p);
+					},
+					failure : function() {
+						Ext.example.msg("警告", "上传项目ID失败", "msg-box-error");
+					}
+				});
+			} else {
+				Ext.example.msg("警告", "请选择要查看的项目", "msg-box-error");
+			}
+		}
+	});
 
 	var btn_del = new Ext.Button({
 				text : "删除项目",
@@ -200,8 +353,8 @@ var proManageFun = function() {
 				id : "membermagt",
 				handler : function() {
 					var _selectModel = _grid.getSelectionModel();
-					if(_selectModel.hasSelection()) {
-						var ID = _selectModel.getLastSelected().get("id");	//选中项目ID
+					if (_selectModel.hasSelection()) {
+						var ID = _selectModel.getLastSelected().get("id"); // 选中项目ID
 						_center.removeAll();
 						_center.add(mumberManageFun(ID));
 					}
@@ -224,36 +377,38 @@ var proManageFun = function() {
 				text : "查找项目",
 				tooltip : "查找项目",
 				id : "searchType",
-				iconCls : 'icon-btn-search'	
+				iconCls : 'icon-btn-search',
+				handler : function() {
+					new searchFn();
+				}
 			});
 
-
 	Ext.define('Project', {
-		extend : 'Ext.data.Model',
-		fields : [
-		          	{	name : "id",
-						type : "string"
-					}, {
-						name : "name",
-						type : "string"
-					}, {
-						name : "startDate",
-						type : "Date"
-					}, {
-						name : "finishDate",
-						type : "Date"
-					}, {
-						name : "status",
-						type : "string"	
-					}, {
-						name : "desc",
-						type : "string"
-					}
-					]});
+				extend : 'Ext.data.Model',
+				fields : [{
+							name : "id",
+							type : "string"
+						}, {
+							name : "name",
+							type : "string"
+						}, {
+							name : "startDate",
+							type : "Date"
+						}, {
+							name : "finishDate",
+							type : "Date"
+						}, {
+							name : "status",
+							type : "string"
+						}, {
+							name : "desc",
+							type : "string"
+						}]
+			});
 	Ext.create('Ext.data.Store', {
-			model : 'Project',
-			storeId : 'myStore',
-			proxy : {
+				model : 'Project',
+				storeId : 'myStore',
+				proxy : {
 					type : 'rest',
 					url : 'Project/findAllProject.action',
 					method : 'POST',
@@ -263,45 +418,42 @@ var proManageFun = function() {
 						totalProperty : 'totalCount',
 						idProperty : 'id'
 					}
-			},
-			autoLoad : true
-	});
+				},
+				autoLoad : true
+			});
 	var _sm = new Ext.selection.RowModel({
-		mode : 'SINGLE'
-	}
-	);
+				mode : 'SINGLE'
+			});
 	var _grid = Ext.create('Ext.grid.Panel', {
 				title : '项目管理',
 				store : Ext.data.StoreManager.lookup('myStore'),
 				selModel : _sm,
 				columnLines : true,
 				region : 'center',
-				//cm : _cm,
-				columns : [
-	                       {
-								text : '项目编号',
-								dataIndex : 'id'
-							}, {
-								text : '项目名称',
-								dataIndex : 'name'
-							}, {
-								text : '开始时间',
-								dataIndex : 'startDate'
-							}, {
-								text : '结束时间',
-								dataIndex : 'finishDate'
-							}, {
-								text : '状态',
-								dataIndex : 'status'
-							}, {
-								text : '简介',
-								dataIndex : 'desc',
-								flex : 1
-							}],
+				forceFit : true,
+				columns : [{
+							text : '项目编号',
+							dataIndex : 'id'
+						}, {
+							text : '项目名称',
+							dataIndex : 'name'
+						}, {
+							text : '开始时间',
+							dataIndex : 'startDate'
+						}, {
+							text : '结束时间',
+							dataIndex : 'finishDate'
+						}, {
+							text : '状态',
+							dataIndex : 'status'
+						}, {
+							text : '简介',
+							dataIndex : 'desc'
+						}],
 
 				frame : true,
-				
-				tbar : [btn_view, '-', btn_del,'-', btn_member, '->', btn_add,
+
+				tbar : [btn_view, '-', btn_del, '-', btn_member, '->', btn_add,
 						'-', btn_search],
 				bbar : new Ext.PagingToolbar({
 							id : "toolbar1",
