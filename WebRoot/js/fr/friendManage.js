@@ -1,5 +1,4 @@
 var friendManageFunc = function() {
-
 	var pageSize = 10;
 	
 	/*
@@ -202,6 +201,13 @@ var friendManageFunc = function() {
 						}
 					}
 				});
+		
+		store_Staff.load({
+			params : {
+				'StaffID' : ''
+			}
+
+		});
 		var sm_Staff = new Ext.selection.RowModel({
 					mode : 'SINGLE'
 				});
@@ -312,6 +318,7 @@ var friendManageFunc = function() {
 
 					}]
 				});
+		
 
 		Ext.define('Project', {
 					extend : 'Ext.data.Model',
@@ -777,7 +784,7 @@ var friendManageFunc = function() {
 						idProperty : 'id'
 					},
 					extraParams : {
-						'MyID' : 'testID'
+						'MyID' : MyID
 					}
 				},
 				autoLoad : true

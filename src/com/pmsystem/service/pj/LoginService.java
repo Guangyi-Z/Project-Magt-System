@@ -5,4 +5,6 @@ public interface LoginService {
 	public String login(String userName);
 
 	public String searchUser(String userName);
+
+	public String searchStaffID(String userName);
 }

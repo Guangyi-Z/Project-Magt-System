@@ -20,7 +20,8 @@
 		<!-- <script type="text/javascript" src="extjs/ext-base.js"></script> -->
 		<!-- index -->
 		<script type="text/javascript">
-			var MyID = ${sessionScope.userID};
+			var MyID = "${sessionScope.userID}";
+			var AccountID = "${sessionScope.userName}";
 		</script>
 		<script type="text/javascript" src="index.js"></script>
 		<!-- 项目管理模块 -->

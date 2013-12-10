@@ -10,15 +10,21 @@ import com.pmsystem.model.pj.ProjectOfGantt;
 import com.pmsystem.model.pj.Task;
 
 public interface ProjectManageDAO {
-	public String addProject(Project project);
+	public int addProject(Project project);
 
-	public String deleteProject(String id);
+	public int addProjectWithStaff(
+			@Param(value = "ProjectID") String ProjectID,
+			@Param(value = "MyID") String MyID);
+
+	public String deleteProject(
+			@Param(value = "ProjectID") String ProjectID,
+			@Param(value = "MyID") String MyID);
 
 	public void updateProject(Project project);
 
 	public int getCount();
 
-	public List<Project> getAllProjectCount(Map<String, Integer> map);
+	public List<Project> getAllProjectCount(Map<String, Object> map);
 
 	public Project getProjectByID(String ID);
 

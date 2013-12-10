@@ -11,6 +11,15 @@
 		#{startDate}, #{finishDate},
 		#{status}, #{desc} )
 	</insert>
+	<insert id="addProjectWithStaff">
+		INSERT
+		INTO 项目_员工 ( 项目ID , 员工ID, 员工权限,
+		项目角色) VALUES (
+		#{ProjectID},
+		#{MyID} ,
+		'0',
+		'管理员')
+	</insert>
 
 	<resultMap type="Project" id="ProjectMap">
 		<id property="id" column="项目ID"></id>
@@ -25,7 +34,7 @@
 	<delete id="deleteProject" parameterType="String">
 		DELETE FROM 项目
 		WHERE
-		项目ID = #{id}
+		项目ID = #{ProjectID}
 	</delete>
 
 	<select id="getAllProjectCount" parameterType="map" resultMap="ProjectMap">
@@ -35,6 +44,10 @@
 		项目ID
 		FROM 项目
 		ORDER BY 项目ID)
+		
+		AND 项目ID IN(
+		SELECT 项目ID FROM 项目_员工
+		WHERE 员工ID = #{MyID})
 		ORDER BY 项目ID
 	</select>
 	<select id="getProjectByID" parameterType="String" resultMap="ProjectMap">

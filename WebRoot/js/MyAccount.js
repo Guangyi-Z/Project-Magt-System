@@ -1,7 +1,7 @@
 var MyAccount = function() {
 	
-	var MyID = 'testID';
-	var AccountID = 'admin';
+	//var MyID = 'testID';
+	//var AccountID = 'admin';
 	
 	
 	var btn_modifypassword_handler = function() {

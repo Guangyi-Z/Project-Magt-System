@@ -84,7 +84,45 @@ var mumberManageFun = function(_id) {
 		}).show();
 	};
 	
+	
+	
 	//通过好友列表添加成员
+	
+	Ext.define('Friend', {
+		extend : 'Ext.data.Model',
+		fields : [{
+					name : "id",
+					type : "string"
+				}, {
+					name : "remark",
+					type : "string"
+				}]
+	});
+	
+	
+	Ext.create('Ext.data.Store', {
+		model : 'Friend',
+		storeId : 'myStore',
+		proxy : {
+			type : 'ajax',
+			url : 'Friend/findAllFriend.action',
+			method : 'POST',
+			reader : {
+				type : 'json',
+				root : 'friends',
+				totalProperty : 'totalCount',
+				idProperty : 'id'
+			},
+			extraParams : {
+				'MyID' : MyID
+			}
+		},
+		autoLoad : true
+	});
+
+	var _sm = new Ext.selection.RowModel({
+		mode : 'SINGLE'
+	});
 	var addbyFriendsFun = function() {
 		new Ext.Window({
 			id : "friendsWin",
@@ -97,24 +135,20 @@ var mumberManageFun = function(_id) {
 				xtype : "grid",
 			    id: 'friends_grid',
 			    height:360,
-			    columns: [
-			        { text: '好友备注',  dataIndex: 'remarkname', flex : 1  } 
-			    ],
-			    multiSelect : true,
-			    selType: 'checkboxmodel',
-			    store: Ext.data.StoreManager.lookup(new Ext.data.Store({
-			    	model : 'items',
-				    storeId:'simpsonsStore',
-				    fields:['remark'],
-				    data:{'item':[['Bart']]},
-				    autoLoad : true,
-				    proxy: {
-			  			type: 'memory',
-			  			reader: {
-			  				root: 'items',
-			  			}
-			  		 },
-			    })),
+			    selModel : _sm,
+				columnLines : true,
+				region : 'center',
+				//multiSelect : true,
+				//selType : 'checkboxmodel',
+				columns : [{
+							text : '好友ID',
+							dataIndex : 'id'
+						}, {
+							text : '好友备注',
+							dataIndex : 'remark',
+							flex : 1
+						}],
+			    store: Ext.data.StoreManager.lookup('myStore'),
 			buttonAlign : 'center',
 			minButtonWidth : 80,
 			buttons : [{
@@ -122,8 +156,39 @@ var mumberManageFun = function(_id) {
 						tooltip : "添加为成员",
 						handler : function() {
 						//添加选定好友为成员
-								
-						Ext.getCmp("friendsWin").close(); // 根据id获取到表单的窗口，然后将其关闭
+								var _selectModel = Ext.getCmp('friends_grid').getSelectionModel();
+								if(_selectModel.hasSelection()){
+									
+									var friend_id = _selectModel.getLastSelected().get('id');
+									Ext.Ajax.request({
+										url : 'ProjectMember/addMember.action',
+										params : {
+											'projectID' : PROJECT_ID,
+											'memberID' : friend_id
+										},
+									
+										method : 'POST',
+										success : function(response){
+											if(response.responseText == "{\"success\":true}"){
+												
+												Ext.example.msg("添加成功", "添加成员成功", "msg-box-success");
+											
+												Ext.getCmp("chooseWin").close();
+												mumberManager_grid.getStore().reload();
+											}
+											else{
+												Ext.example.msg("警告", "添加成员失败",
+												"msg-box-error");
+												
+											}
+										},
+										failure : function(){
+											Ext.example.msg("警告", "发送请求失败",
+											"msg-box-error");
+										}
+									})
+								}
+								Ext.getCmp("friendsWin").close(); // 根据id获取到表单的窗口，然后将其关闭
 						}
 					},{
 						text : "返回",

@@ -85,13 +85,20 @@ var proManageFun = function() {
 						Ext.getCmp("addForm").getForm().submit({// 利用表单的submit方法提交表单
 							waitTitle : "请稍候", // 提交表单时进度条的标题
 							waitMsg : "正在提交数据，稍后……", // 提交表单时进度条的信息
+							params : {
+								'MyID' : MyID
+							},
 							url : _url, // 提交地址
 							method : "POST", // 提交方式，需要大写
 							success : function() { // 如果提交成功后处理的方法
 								Ext.example.msg("提交成功", "提交订单类型信息成功……",
 										"msg-box-success");// 相应的提示信息
 								Ext.getCmp("addWin").close(); // 根据id获取到表单的窗口，然后将其关闭
-								_grid.getStore().reload(); //
+								_grid.getStore().reload({
+									params : {
+									'MyID' : MyID
+									}
+								}); //
 								// 提交成功后，需要刷新GridPanel数据，
 
 							},
@@ -137,7 +144,11 @@ var proManageFun = function() {
 										success : function() {
 											Ext.example.msg("删除项目", "删除成功",
 													"msg-box-success");
-											_grid.getStore().reload(); //
+											_grid.getStore().reload({
+												params : {
+												"MyID" : MyID
+												}
+											}); //
 										},
 										failure : function() {
 											Ext.example.msg("警告", "删除项目失败",
@@ -405,7 +416,7 @@ var proManageFun = function() {
 							type : "string"
 						}]
 			});
-	Ext.create('Ext.data.Store', {
+	var _proListStore = Ext.create('Ext.data.Store', {
 				model : 'Project',
 				storeId : 'myStore',
 				proxy : {
@@ -419,8 +430,13 @@ var proManageFun = function() {
 						idProperty : 'id'
 					}
 				},
-				autoLoad : true
+				//autoLoad : true
 			});
+	_proListStore.load({
+			params : {
+			'MyID' : MyID
+			}
+		});
 	var _sm = new Ext.selection.RowModel({
 				mode : 'SINGLE'
 			});

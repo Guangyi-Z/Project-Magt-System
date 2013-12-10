@@ -36,9 +36,15 @@ public class ProjectServiceTest extends TestCase{
 //		project.setProjectStatement("IT项目管理系统是一个基于云计算的管理平台");
 //		service.updateProject(project);
 //	}
-	public void testDelete(){
+//	public void testDelete(){
 		
-		System.out.println(service.deleteProject("00000011"));
+//		System.out.println(service.deleteProject("PC20131202213417", "testID"));
+//	}
+	public void testList(){
+		List<Project> list = null;
+		list = service.getAllProjects(10, 0, "testID");
+		System.out.println(list.get(0).getName());
+		System.out.println(list.get(1).getName());
+		System.out.println(list.get(2).getId());
 	}
-	
 }

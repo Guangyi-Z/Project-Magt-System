@@ -15,6 +15,10 @@ public class LoginServiceImpl implements LoginService {
 		return password;
 	}
 
+	public String searchStaffID(String userName){
+		return logindao.searchStaffID(userName);
+	}
+	
 	public String searchUser(String userName) {
 		return logindao.searchUser(userName);
 	}

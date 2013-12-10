@@ -1,0 +1,7 @@
+USE [PROJECT_MANAGEMENT_SYSTEM] 
+GO
+CREATE TABLE 权限
+(	权限ID   int,
+	权限名称 varchar(50)
+	PRIMARY KEY (权限ID)
+	)

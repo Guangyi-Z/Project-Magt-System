@@ -36,21 +36,14 @@ public class ProjectManageAction extends ActionSupport {
 	}
 
 	public String addProject() {
-		System.out.println("name a: " + project.getName());
-		System.out.println("desc a: " + project.getDesc());
-		System.out.println("startDate a: " + project.getStartDate());
-		System.out.println("finishDate a: " + project.getFinishDate());
-		if (projectManageService == null) {
-			System.out.println("projectManageService == null");
-		}
-		projectManageService.addProject(project);
+		projectManageService.addProject(project,MyID);
 		jsonMap.put("success", true);
 		return SUCCESS;
 	}
 
 	public String deleteProject() {
 		jsonMap.clear();
-		if (projectManageService.deleteProject(id) == null) {
+		if (projectManageService.deleteProject(id, MyID) == null) {
 
 		}
 		jsonMap.put("success", true);
@@ -69,12 +62,16 @@ public class ProjectManageAction extends ActionSupport {
 
 	public String findAllProject() {
 		jsonMap.clear();
-		if (projectManageService.getAllProjects(limit, start) != null) {
-			projects = projectManageService.getAllProjects(limit, start);
+		if (projectManageService.getAllProjects(limit, start,MyID) != null) {
+			projects = projectManageService.getAllProjects(limit, start, MyID);
 			totalCount = projectManageService.getCount();
+			System.out.println(projects.get(0).getName());
+			System.out.println(projects.get(1).getName());
+			System.out.println(projects.get(2).getId());
 			jsonMap.put("projects", projects);
 			jsonMap.put("totalCount", totalCount);
 			jsonMap.put("success", true);
+			
 		} else
 			jsonMap.put("success", false);
 		return SUCCESS;

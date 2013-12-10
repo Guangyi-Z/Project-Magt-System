@@ -3,6 +3,7 @@ package com.pmsystem.action.pj;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -25,8 +26,10 @@ public class LoginAction extends ActionSupport implements ServletResponseAware {
 		}
 		if (userName.equals(loginService.searchUser(userName))) {
 			if (password.equals(loginService.login(userName))) {
+				String userID = loginService.searchStaffID(userName);
 				ActionContext ctx = ActionContext.getContext();
-				ctx.getSession().put("userID", userName);
+				ctx.getSession().put("userID", userID);
+				ctx.getSession().put("userName", userName);
 				return SUCCESS;
 			} else {
 				System.out.println("password_error");

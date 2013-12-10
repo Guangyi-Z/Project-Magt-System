@@ -13,7 +13,7 @@ import com.pmsystem.service.pj.ProjectManageService;
 public class ProjectManageServiceImpl implements ProjectManageService {
 	private ProjectManageDAO projectManageDAO;
 
-	public String addProject(Project project) {
+	public String addProject(Project project,String MyID) {
 		// TODO Auto-generated method stub
 
 		SimpleDateFormat f = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -22,20 +22,22 @@ public class ProjectManageServiceImpl implements ProjectManageService {
 
 		Date startDate = new Date(project.getStartDate().toString());
 		if (startDate.after(today)) {
-			project.setStatus("÷¥––÷–");
+			project.setStatus("ÊâßË°å‰∏≠");
 		} else {
-			project.setStatus("Œ¥∆Ù∂Ø");
+			project.setStatus("Êú™ÂêØÂä®");
 		}
 		try {
 			projectManageDAO.addProject(project);
+			projectManageDAO.addProjectWithStaff(project.getId(), MyID);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public String deleteProject(String id) {
+	public String deleteProject(String id, String MyID) {
 		try {
-			projectManageDAO.deleteProject(id);
+			projectManageDAO.deleteProject(id, MyID);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -51,10 +53,11 @@ public class ProjectManageServiceImpl implements ProjectManageService {
 		return null;
 	}
 
-	public List<Project> getAllProjects(int limit, int start) {
-		Map<String, Integer> map = new HashMap<String, Integer>();
+	public List<Project> getAllProjects(int limit, int start, String MyID) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("limit", limit);
 		map.put("start", start);
+		map.put("MyID", MyID);
 		List<Project> list = null;
 		try {
 			list = projectManageDAO.getAllProjectCount(map);

@@ -10,4 +10,9 @@
 		SELECT 用户名 FROM 用户
 		WHERE 用户名 = #{userName}
 	</select>
+	
+	<select id="searchStaffID" parameterType="String" resultType="String">
+		SELECT 员工ID FROM 用户
+		WHERE 用户名 = #{userName}
+	</select>
 </mapper>
