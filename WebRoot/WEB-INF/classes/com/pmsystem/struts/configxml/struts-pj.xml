@@ -33,7 +33,7 @@
 	<package name="Register" namespace="/Register" extends="json-default">
 		<action name="*" class="com.pmsystem.action.pj.RegisterAction"
 			method="{1}">
-			<result name="success" type="redirect">/index.html</result>
+			<result name="success" type="redirect">/index.jsp</result>
 			<result name="userExist" type="redirect">/register_check_userName.html</result>
 			<result name="empIDNoExist" type="redirect">/register_check_id.html</result>
 			<result name="empIDIsUsed" type="redirect">/register_check_empID.html</result>

@@ -1,5 +1,6 @@
 package com.pmsystem.action.pj;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.pmsystem.model.pj.User;
 import com.pmsystem.service.pj.LoginService;
@@ -25,6 +26,9 @@ public class RegisterAction extends ActionSupport {
 			if (empID.equals(registerService.searchEmpID(empID)))
 				if (!(userName.equals(registerService.searchUser(userName)))) {
 					registerService.register(user);
+					ActionContext ctx = ActionContext.getContext();
+					ctx.getSession().put("userID", empID);
+					ctx.getSession().put("userName", userName);
 					return SUCCESS;
 				} else {
 					return "userExist";

@@ -65,9 +65,9 @@ public class ProjectManageAction extends ActionSupport {
 		if (projectManageService.getAllProjects(limit, start,MyID) != null) {
 			projects = projectManageService.getAllProjects(limit, start, MyID);
 			totalCount = projectManageService.getCount();
-			System.out.println(projects.get(0).getName());
-			System.out.println(projects.get(1).getName());
-			System.out.println(projects.get(2).getId());
+//			System.out.println(projects.get(0).getName());
+//			System.out.println(projects.get(1).getName());
+//			System.out.println(projects.get(2).getId());
 			jsonMap.put("projects", projects);
 			jsonMap.put("totalCount", totalCount);
 			jsonMap.put("success", true);

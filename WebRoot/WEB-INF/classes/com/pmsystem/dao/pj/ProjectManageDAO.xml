@@ -32,6 +32,9 @@
 	</resultMap>
 
 	<delete id="deleteProject" parameterType="String">
+		DELETE FROM 项目_员工	
+		WHERE 
+		项目ID = #{ProjectID};
 		DELETE FROM 项目
 		WHERE
 		项目ID = #{ProjectID}
