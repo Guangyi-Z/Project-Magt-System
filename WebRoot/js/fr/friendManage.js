@@ -599,7 +599,7 @@ var friendManageFunc = function() {
 									url : 'Friend/modifyRemark.action', // 提交地址
 									method : "POST", // 提交方式，需要大写
 									success : function() { // 如果提交成功后处理的方法
-										Ext.example.msg("提交成功", "提交订单类型信息成功……",
+										Ext.example.msg("提交成功", "修改备注名成功……",
 												"msg-box-success");// 相应的提示信息
 										Ext.getCmp("modifyremarkWindow").close(); // 根据id获取到表单的窗口，然后将其关闭
 										 grid.getStore().reload(); //

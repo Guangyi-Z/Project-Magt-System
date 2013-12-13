@@ -34,7 +34,13 @@
 	</select>
 	
 	<delete id="deleteStaff">
-		DELETE 员工
+		DELETE FROM 好友
+		WHERE 员工ID = #{id}
+		DELETE FROM 项目_员工
+		WHERE 员工ID = #{id}
+		DELETE FROM 用户
+		WHERE 员工ID = #{id}
+		DELETE FROM 员工
 		WHERE 员工ID = #{id}
 	</delete>
 </mapper>

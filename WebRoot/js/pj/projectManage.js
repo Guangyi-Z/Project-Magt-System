@@ -91,7 +91,7 @@ var proManageFun = function() {
 							url : _url, // 提交地址
 							method : "POST", // 提交方式，需要大写
 							success : function() { // 如果提交成功后处理的方法
-								Ext.example.msg("提交成功", "提交订单类型信息成功……",
+								Ext.example.msg("新建成功", "新建项目成功……",
 										"msg-box-success");// 相应的提示信息
 								Ext.getCmp("addWin").close(); // 根据id获取到表单的窗口，然后将其关闭
 								_grid.getStore().reload({
@@ -110,7 +110,7 @@ var proManageFun = function() {
 						});
 					} else {// 如果表单验证未通过则提示用户骓未通过。
 
-						Ext.example.msg("提示", "请填写完整、合法的订单类别信息...",
+						Ext.example.msg("提示", "请填写完整、合法的项目信息...",
 								"msg-box-error");
 					}
 

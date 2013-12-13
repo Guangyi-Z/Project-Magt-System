@@ -233,7 +233,7 @@ var admin = function() {
 
 		frame : true,
 
-		tbar : [ btn_add, '-', btn_del, '->', '-', btn_search ],
+		tbar : [ btn_add, '-', btn_del ],
 		bbar : new Ext.PagingToolbar( {
 			id : "toolbar1",
 			store : Ext.data.StoreManager.lookup('myStore'),

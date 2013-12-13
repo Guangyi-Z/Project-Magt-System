@@ -6,23 +6,7 @@ Ext.onReady(function() {
 		style : 'background-color:Blue; background-image:url(resources/images/logo_bg.jpg);',
 		height : 40,
 		region : 'north',
-		items : ['<h1>IT项目管理系统</h1>', '->', {
-					text : '项目管理',
-					handler : function() {
-						_center.removeAll();
-						_center.add(proManageFun());
-					}
-				}, '-', {
-					text : '好友管理',
-					handler : function() {
-						_center.removeAll();
-						_center.add(friendManageFunc());
-					}
-				}, '-', {
-					text : '我的账号',
-					handler : function() {
-					}
-				}/*, '-', {
+		items : ['<h1>IT项目管理系统</h1>'/*, '-', {
 					text : '测试按钮',
 					handler : function() {
 						_center.removeAll();

@@ -13,6 +13,6 @@ public interface StaffManageDAO {
 
 	public int getCount();
 
-	public String deleteStaff(String id);
+	public void deleteStaff(String id);
 
 }
